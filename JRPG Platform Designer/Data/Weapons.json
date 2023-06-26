@@ -1,0 +1,70 @@
+[
+    {
+        "ID": "W1",
+        "Level": "1",
+        "Rarity": "COMMON",
+        "Name": "Blacksmith's Sword",
+        "Description": "The good ol' sword from MR Riverman. Easy to swing but is low on impact.",
+        "ImageName": "blacksmith-sword.png",
+        "Type": "Sword",
+        "Value": "100",
+        "Stats": {
+            "DMG": "20",
+            "DEF": "5",
+            "SPD": "10",
+            "CRC": "5",
+            "CRD": "10"
+        }
+    },
+    {
+        "ID": "W2",
+        "Level": "1",
+        "Rarity": "SPECIAL",
+        "Name": "Blacksmith's Devestator",
+        "Description": "MR.Riverman took this one out on judgement's day. You really don't wanna see this one on your menu.",
+        "ImageName": "blacksmith-devestator.png",
+        "Type": "Sword",
+        "Value": "400",
+        "Stats": {
+            "DMG": "30",
+            "DEF": "5",
+            "SPD": "-5",
+            "CRC": "10",
+            "CRD": "25"
+        }
+    },
+    {
+        "ID": "W3",
+        "Level": "1",
+        "Rarity": "LEGENDARY",
+        "Name": "The Noble Sword",
+        "Description": "These are used by the queen's guards. Very rapid sword that provides a quick solution against scums.",
+        "ImageName": "noble-sword.png",
+        "Type": "Sword",
+        "Value": "950",
+        "Stats": {
+            "DMG": "25",
+            "DEF": "10",
+            "SPD": "20",
+            "CRC": "25",
+            "CRD": "25"
+        }
+    },
+    {
+        "ID": "W4",
+        "Level": "1",
+        "Rarity": "CURSED",
+        "Name": "Painful Vengeance",
+        "Description": "A man once did an evil ritual to gain a powerful sword. He got what he wanted, but at what cost?",
+        "ImageName": "painful-vengeance.png",
+        "Type": "Sword",
+        "Value": "1500",
+        "Stats": {
+            "DMG": "35",
+            "DEF": "0",
+            "SPD": "20",
+            "CRC": "5",
+            "CRD": "50"
+        }
+    }
+]

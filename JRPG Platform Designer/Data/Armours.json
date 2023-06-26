@@ -1,0 +1,33 @@
+[
+    {
+        "ID": "A1",
+        "Level": "1",
+        "Rarity": "COMMON",
+        "Name": "Trousers",
+        "Description": "It's just me trousers innit bruv.",
+        "ImageName": "trousers.png",
+        "Value": "50",
+        "Stats": {
+            "DEF": "10",
+            "SPD": "10",
+            "STA": "10",
+            "STR": "2"
+        }
+    },
+    {
+        "ID": "A2",
+        "Level": "1",
+        "Rarity": "CURSED",
+        "Name": "Witch's Hat",
+        "Description": "Used to be bad, now I'm good. Like OMG I'm such a good person!!",
+        "ImageName": "witch-hat.png",
+        "Value": "200",
+        "Stats": {
+            "DEF": "20",
+            "SPD": "0",
+            "STA": "0",
+            "STR": "10"
+        },
+        "Charm": "CH1"
+    }
+]

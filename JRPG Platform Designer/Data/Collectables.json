@@ -1,0 +1,102 @@
+[
+    {
+        "ID": "C1",
+        "Level": "1",
+        "Rarity": "COMMON",
+        "Name": "Shiny Rock",
+        "Description": "A rock that contains sum mana. Hence why it's so shiny!",
+        "ImageName": "shiny-rock.png",
+        "Value": "5",
+        "IsSellable": "True"
+    },
+    {
+        "ID": "C2",
+        "Level": "1",
+        "Rarity": "SPECIAL",
+        "Name": "Lucky Rabbit's Foot",
+        "Description": "A soft, fluffy rabbit's foot believed to bring good fortune to its owner.",
+        "ImageName": "rabbits-foot.png",
+        "Value": "20",
+        "IsSellable": "True"
+    },
+    {
+        "ID": "C3",
+        "Level": "1",
+        "Rarity": "LEGENDARY",
+        "Name": "Orb of Eternal Wisdom",
+        "Description": "A mesmerizing orb that holds the vast knowledge of the ancient sages.",
+        "ImageName": "eternal-orb.png",
+        "Value": "200",
+        "IsSellable": "True"
+    },
+    {
+        "ID": "C4",
+        "Level": "1",
+        "Rarity": "CURSED",
+        "Name": "Wet, sand-filled socks",
+        "Description": "I was given this pair of socks to wear to my own funeral. Truly terrifying.",
+        "ImageName": "wet-socks.png",
+        "Value": "1",
+        "IsSellable": "False"
+    },
+    {
+        "ID": "C5",
+        "Level": "1",
+        "Rarity": "COMMON",
+        "Name": "Enchanted Feather",
+        "Description": "A vibrant feather radiating magical energy, capable of granting temporary flight.",
+        "ImageName": "enchanted-feather.png",
+        "Value": "20",
+        "IsSellable": "True"
+    },
+    {
+        "ID": "C6",
+        "Level": "1",
+        "Rarity": "SPECIAL",
+        "Name": "Whispering Pendant",
+        "Description": "A delicate pendant that whispers forgotten secrets to its wearer in hushed tones.",
+        "ImageName": "whispering-pendant.png",
+        "Value": "30",
+        "IsSellable": "True"
+    },
+    {
+        "ID": "C7",
+        "Level": "1",
+        "Rarity": "LEGENDARY",
+        "Name": "Scepter of Elemental Mastery",
+        "Description": "A majestic scepter infused with the power to control the four elements at will.",
+        "ImageName": "elemental-scepter.png",
+        "Value": "400",
+        "IsSellable": "True"
+    },
+    {
+        "ID": "C8",
+        "Level": "1",
+        "Rarity": "COMMON",
+        "Name": "Glowing Mushroom Spores",
+        "Description": "A vial containing spores from a rare luminescent mushroom, known for its healing properties.",
+        "ImageName": "glowing-spores.png",
+        "Value": "15",
+        "IsSellable": "True"
+    },
+    {
+        "ID": "C9",
+        "Level": "1",
+        "Rarity": "SPECIAL",
+        "Name": "Amulet of Time Manipulation",
+        "Description": "An amulet that grants its wearer the ability to manipulate time within a limited radius.",
+        "ImageName": "time-amulet.png",
+        "Value": "500",
+        "IsSellable": "False"
+    },
+    {
+        "ID": "C10",
+        "Level": "1",
+        "Rarity": "CURSED",
+        "Name": "Haunted Doll",
+        "Description": "A creepy doll possessed by a mischievous spirit that occasionally moves on its own. D-did she just ... wink at me?",
+        "ImageName": "haunted-doll.png",
+        "Value": "10",
+        "IsSellable": "True"
+    }
+]

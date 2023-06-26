@@ -1,0 +1,14 @@
+[
+    {
+        "Type": "DEFAULT",
+        "Code": "DEF",
+        "TileColor": "Beige",
+        "IsWalkable": "True"
+    },
+    {
+        "Type": "SEA",
+        "Code": "SEA",
+        "TileColor": "DarkSlateBlue",
+        "IsWalkable": "False"
+    }
+]
