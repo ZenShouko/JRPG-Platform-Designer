@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,9 @@ namespace JRPG_Platform_Designer.Entities
 {
     public abstract class MapObject
     {
-        public Image Icon { get; set; }
-        public Coordinates Position { get; set; }
+        public Coordinates Position { get; set; } = new Coordinates();
+
+        [JsonIgnore]
+        public Image Icon { get; set; } = new Image();
     }
 }

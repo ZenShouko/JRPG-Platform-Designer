@@ -7,71 +7,91 @@
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         Title="Platform Designer" Height="650" Width="1200">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <!--Load game datafiles-->
-        <StackPanel Orientation="Horizontal" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <StackPanel Margin="5">
-                <TextBlock x:Name="TxtTileStatus" Text="Not Loaded X" Margin="0 5" FontWeight="Bold"/>
-                <Button x:Name="BtnTiles" Content="Load Tiles" Click="BtnTiles_Click"/>
-            </StackPanel>
-        </StackPanel>
-        
-        <!--Create Platform-->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1.5*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             
-            <!--Live preview of platform-->
+            <!--#Live preview of platform-->
             <Grid x:Name="PlatformPreview" Background="Gray"></Grid>
             
-            <!--Control box-->
-            <StackPanel Grid.Column="1" Margin="10">
+            <!--#Control box-->
+            <StackPanel x:Name="ControlPanel" Grid.Column="1" Margin="10">
                 <!--Platform Properties-->
-                <GroupBox x:Name="PlatformPropertiesPanel" Header="Platform Properties" Margin="10" MouseDown="GroupBox_MouseDown">
-                    <StackPanel>
-                        <TextBlock Text="Name:" Margin="5"/>
-                        <TextBox x:Name="TxtName" Text="Test123" Margin="10 5" Padding="1"/>
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <StackPanel Margin="0 0 5 0">
-                                <TextBlock Text="Columns:" Margin="5"/>
-                                <TextBox x:Name="TxtColumns" Text="4" Margin="10 5" Padding="1"/>
+                <DockPanel>
+                    <Image x:Name="PropertiesStatusIcon" Height="26" Width="26" Source="Icons/alert.png" DockPanel.Dock="Right"/>
+                    <GroupBox x:Name="PlatformPropertiesPanel" Header="Platform Properties" Margin="5 0" MouseDown="GroupBox_MouseDown">
+                        <StackPanel>
+                            <TextBlock Text="Name:" Margin="5"/>
+                            <TextBox x:Name="TxtName" Text="Test123" Margin="10 5" Padding="1"/>
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Margin="0 0 5 0">
+                                    <TextBlock Text="Columns:" Margin="5"/>
+                                    <TextBox x:Name="TxtColumns" Text="4" Margin="10 5" Padding="1"/>
+                                </StackPanel>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Text="rows:" Margin="5"/>
+                                    <TextBox x:Name="TxtRows" Text="4" Margin="10 5" Padding="1"/>
+                                </StackPanel>
+                            </Grid>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                                <Button Content="Apply" Click="ApplyPlatformProperties" Margin="5" Width="120"/>
                             </StackPanel>
-                            <StackPanel Grid.Column="1">
-                                <TextBlock Text="rows:" Margin="5"/>
-                                <TextBox x:Name="TxtRows" Text="4" Margin="10 5" Padding="1"/>
-                            </StackPanel>
-                        </Grid>
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                            <Button Content="Apply" Click="ApplyPlatformProperties" Margin="5" Width="120"/>
-                            <Image x:Name="PropertiesStatusIcon" Height="32" Width="32" Source="Icons/alert.png" Margin="10 0"/>
                         </StackPanel>
-                    </StackPanel>
-                </GroupBox>
+                    </GroupBox>
+                </DockPanel>
 
                 <!--Platform Tiles-->
                 <GroupBox Header="Tiles" Margin="10">
-                    <StackPanel Orientation="Horizontal" Margin="5">
+                    <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
                         <TextBlock Text="Tile:" Margin="5"/>
                         <ComboBox x:Name="ComboboxTiles" Margin="10 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
+                        <Button x:Name="BtnModifyTile" Width="35" Content="Pick" Click="ModifyCurrentAction"/>
+                        <TextBlock Text="Player Position:" Margin="20 5 0 5"/>
+                        <Button x:Name="BtnModifyPlayer" Width="35" Content="Pick" Margin="10 0" Padding="4 2" Click="ModifyCurrentAction"/>
+                    </StackPanel>
+                </GroupBox>
+                
+                <!--Items-->
+                <GroupBox Header="Lootbox" Margin="10">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <TextBlock Text="Item:" Margin="5"/>
+                        <ComboBox x:Name="ComboboxLootboxType" Margin="10 5" Padding="4" MinWidth="150" SelectedIndex="0">
+                            <ComboBoxItem Content="COMMON"/>
+                            <ComboBoxItem Content="SPECIAL"/>
+                            <ComboBoxItem Content="CURSED"/>
+                            <ComboBoxItem Content="LEGENDARY"/>
+                        </ComboBox>
+                        <Button x:Name="BtnModifyLootbox" Width="50" Content="Pick" Click="ModifyCurrentAction"/>
+                    </StackPanel>
+                </GroupBox>
+                
+                <!--Foe settings-->
+                <GroupBox Header="Foes" Margin="10">
+                    <StackPanel Orientation="Horizontal" Margin="5">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5 0">
+                            <TextBlock Text="Foe:" Margin="5"/>
+                            <ComboBox x:Name="ComboboxFoes" Margin="10 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
+                        </StackPanel>
+                        <StackPanel Margin="5 0">
+                            <TextBlock Text="Foe Position:" Margin="5"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox x:Name="TxtFoeX" Text="X" Width="50" Margin="5 0"/>
+                                <TextBox x:Name="TxtFoeY" Text="Y" Width="50" Margin="5 0"/>
+                                <Button x:Name="BtnApplyFoePosition" Content="Apply" Margin="10 0" Padding="4 2"/>
+                            </StackPanel>
+                        </StackPanel>
                     </StackPanel>
                 </GroupBox>
                 
                 <!--Save platform-->
                 <GroupBox Header="Export" Margin="10">
-                    <Button Content="Export platform" Width="100" Click="ExportPlatform"/>
+                    <Button Content="Export platform" Width="100" Click="ExportPlatform" Background="DarkSeaGreen"/>
                 </GroupBox>
             </StackPanel>
         </Grid>

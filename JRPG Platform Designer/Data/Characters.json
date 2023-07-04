@@ -1,0 +1,17 @@
+[
+    {
+        "ID": "CH1",
+        "Name": "Pingu",
+        "Description": "Angry pingu saying he's no enemies.",
+        "Stats": {
+            "HP": "50",
+            "DMG": "20",
+            "DEF": "10",
+            "SPD": "5",
+            "CRC": "10",
+            "CRD": "20",
+            "STA": "20",
+            "STR": "5"
+        }
+    }
+]

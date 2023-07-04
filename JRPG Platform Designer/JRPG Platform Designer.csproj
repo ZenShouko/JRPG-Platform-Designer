@@ -59,11 +59,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Entities\Amulet.cs" />
+    <Compile Include="Entities\BaseItem.cs" />
     <Compile Include="Entities\Coordinates.cs" />
+    <Compile Include="Entities\lootbox.cs" />
     <Compile Include="Entities\MapFoe.cs" />
     <Compile Include="Entities\MapItem.cs" />
     <Compile Include="Entities\MapObject.cs" />
     <Compile Include="Entities\MapPlayer.cs" />
+    <Compile Include="Entities\Stats.cs" />
     <Compile Include="Entities\Tile.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -73,6 +77,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GameData.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -97,7 +102,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Data\Amulets.json" />
     <None Include="Data\Armours.json" />
+    <None Include="Data\Characters.json" />
     <None Include="Data\Charms.json" />
     <None Include="Data\Collectables.json" />
     <None Include="Data\FoeList.json" />
@@ -120,6 +127,56 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\alert.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\player.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\amethyst-shardplate.png" />
+    <Resource Include="Images\aquatic-enchantress.png" />
+    <Resource Include="Images\blizzardborn-armour.png" />
+    <Resource Include="Images\carrotguard-ensemble.png" />
+    <Resource Include="Images\cockadoodle-armour.png" />
+    <Resource Include="Images\duskblade-garb.png" />
+    <Resource Include="Images\icecool-jacket.png" />
+    <Resource Include="Images\lilypond-armour.png" />
+    <Resource Include="Images\poochguard-armour.png" />
+    <Resource Include="Images\sandscarab-robes.png" />
+    <Resource Include="Images\shadowcat-visage.png" />
+    <Resource Include="Images\thronshield-vestment.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\emerald-inferno.png" />
+    <Resource Include="Images\emerald-thornlance.png" />
+    <Resource Include="Images\enigmas-edge.png" />
+    <Resource Include="Images\ethereal-fistblade.png" />
+    <Resource Include="Images\frostwave-orca.png" />
+    <Resource Include="Images\glacial-sovereign.png" />
+    <Resource Include="Images\gloomgaze-blade.png" />
+    <Resource Include="Images\golems-might.png" />
+    <Resource Include="Images\hareblade.png" />
+    <Resource Include="Images\nightshade-reaper.png" />
+    <Resource Include="Images\orcas-drillbreaker.png" />
+    <Resource Include="Images\radishwood-wand.png" />
+    <Resource Include="Images\serpents-grasp.png" />
+    <Resource Include="Images\shadowbane-dagger.png" />
+    <Resource Include="Images\soulfire-reaver.png" />
+    <Resource Include="Images\sparkplug-blade.png" />
+    <Resource Include="Images\sphinxsong-bow.png" />
+    <Resource Include="Images\stardream-blade.png" />
+    <Resource Include="Images\sugarcrush-mallet.png" />
+    <Resource Include="Images\trainees-edge.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\coralburst-ring.png" />
+    <Resource Include="Images\cyclopsoul-tablet.png" />
+    <Resource Include="Images\gearforged-ring.png" />
+    <Resource Include="Images\heartstone-pendant.png" />
+    <Resource Include="Images\seadog-token.png" />
+    <Resource Include="Images\skullcoin-talisman.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\lootbox.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

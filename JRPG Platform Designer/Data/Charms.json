@@ -1,0 +1,9 @@
+[
+    {
+        "ID": "CH1",
+        "Name": "Aggressive Peace",
+        "Description": "No one is allowed to raise a fist. For no reason whatsoever. Not even the good guys!",
+        "PLUS": "Everyone that attacks the wearer receives {DEF} amount of damage.",
+        "DOWN": "If you attack, you receive 20% of your HP as damage."
+    }
+]

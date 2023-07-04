@@ -1,33 +1,170 @@
 [
     {
         "ID": "A1",
-        "Level": "1",
         "Rarity": "COMMON",
-        "Name": "Trousers",
-        "Description": "It's just me trousers innit bruv.",
-        "ImageName": "trousers.png",
+        "Name": "Sand Scarab Robes",
+        "Description": "Enigmatic Egyptian-inspired attire with desert-themed motifs, embodying mystical power and nimble grace.",
+        "ImageName": "sandscarab-robes.png",
         "Value": "50",
         "Stats": {
             "DEF": "10",
             "SPD": "10",
-            "STA": "10",
-            "STR": "2"
+            "STA": "2",
+            "STR": "4"
         }
     },
     {
         "ID": "A2",
-        "Level": "1",
-        "Rarity": "CURSED",
-        "Name": "Witch's Hat",
-        "Description": "Used to be bad, now I'm good. Like OMG I'm such a good person!!",
-        "ImageName": "witch-hat.png",
+        "Rarity": "COMMON",
+        "Name": "Carrotguard Ensemble",
+        "Description": "Lively armor set inspired by carrots, exuding charm and vitality.",
+        "ImageName": "carrotguard-ensemble.png",
+        "Value": "80",
+        "Stats": {
+            "DEF": "15",
+            "SPD": "5",
+            "STA": "10",
+            "STR": "4"
+        }
+    },
+    {
+        "ID": "A3",
+        "Rarity": "COMMON",
+        "Name": "Duskblade Garb",
+        "Description": "Dark blue medieval-inspired armor with a rugged cape.",
+        "ImageName": "duskblade-garb.png",
+        "Value": "90",
+        "Stats": {
+            "DEF": "18",
+            "SPD": "6",
+            "STA": "8",
+            "STR": "3"
+        }
+    },
+    {
+        "ID": "A4",
+        "Rarity": "COMMON",
+        "Name": "Icecool Jacket",
+        "Description": "The jacket itself is ice-cold but, surprisingly, it keeps you warm.",
+        "ImageName": "icecool-jacket.png",
+        "Value": "100",
+        "Stats": {
+            "DEF": "25",
+            "SPD": "1",
+            "STA": "0",
+            "STR": "5"
+        }
+    },
+    {
+        "ID": "A5",
+        "Rarity": "SPECIAL",
+        "Name": "Poochguard Armour",
+        "Description": "Fierce and formidable armor adorned with the visage of a noble canine warrior.",
+        "ImageName": "poochguard-armour.png",
         "Value": "200",
         "Stats": {
-            "DEF": "20",
-            "SPD": "0",
-            "STA": "0",
+            "DEF": "15",
+            "SPD": "15",
+            "STA": "8",
+            "STR": "12"
+        }
+    },
+    {
+        "ID": "A6",
+        "Rarity": "SPECIAL",
+        "Name": "Lilypond Armour",
+        "Description": "Enchanting armor reminiscent of the serene depths of a mystical forest pond.",
+        "ImageName": "lilypond-armour.png",
+        "Value": "180",
+        "Stats": {
+            "DEF": "15",
+            "SPD": "10",
+            "STA": "10",
             "STR": "10"
-        },
-        "Charm": "CH1"
+        }
+    },
+    {
+        "ID": "A7",
+        "Rarity": "SPECIAL",
+        "Name": "Cockadoodle Armour",
+        "Description": "Vibrant and spirited armor evoking the spirited nature of a proud rooster's presence.",
+        "ImageName": "cockadoodle-armour.png",
+        "Value": "190",
+        "Stats": {
+            "DEF": "15",
+            "SPD": "12",
+            "STA": "15",
+            "STR": "5"
+        }
+    },
+    {
+        "ID": "A8",
+        "Rarity": "SPECIAL",
+        "Name": "Aquatic Enchantress",
+        "Description": "Mystical deep-diving armor that blends witchcraft with the secrets of the sea, exuding an aura of captivating power.",
+        "ImageName": "aquatic-enchantress.png",
+        "Value": "210",
+        "Stats": {
+            "DEF": "20",
+            "SPD": "6",
+            "STA": "10",
+            "STR": "20"
+        }
+    },
+    {
+        "ID": "A9",
+        "Rarity": "CURSED",
+        "Name": "Shadowcat Visage",
+        "Description": "A sleek and ominous armor, with the essence of a feline predator, exuding an aura of darkness and striking fear into the hearts of all who dare to oppose.",
+        "ImageName": "shadowcat-visage.png",
+        "Value": "350",
+        "Stats": {
+            "DEF": "30",
+            "SPD": "20",
+            "STA": "15",
+            "STR": "18"
+        }
+    },
+    {
+        "ID": "A10",
+        "Rarity": "CURSED",
+        "Name": "Amethyst Shardplate",
+        "Description": "An awe-inspiring suit of armor, forged from the shards of majestic purple amethyst, radiating both strength and mystic beauty.",
+        "ImageName": "amethyst-shardplate.png",
+        "Value": "450",
+        "Stats": {
+            "DEF": "80",
+            "SPD": "5",
+            "STA": "40",
+            "STR": "5"
+        }
+    },
+    {
+        "ID": "A11",
+        "Rarity": "LEGENDARY",
+        "Name": "Thronshield Vestment",
+        "Description": "Adorned with thorny motifs, bestowing unwavering protection and commanding authority, evoking the essence of a mighty fortress.",
+        "ImageName": "thronshield-vestment.png",
+        "Value": "500",
+        "Stats": {
+            "DEF": "50",
+            "SPD": "20",
+            "STA": "25",
+            "STR": "20"
+        }
+    },
+    {
+        "ID": "A12",
+        "Rarity": "LEGENDARY",
+        "Name": "Blizzardborn Armour",
+        "Description": "Frozen might personified, commanding snowstorm strength.",
+        "ImageName": "blizzardborn-armour.png",
+        "Value": "500",
+        "Stats": {
+            "DEF": "50",
+            "SPD": "15",
+            "STA": "30",
+            "STR": "22"
+        }
     }
 ]

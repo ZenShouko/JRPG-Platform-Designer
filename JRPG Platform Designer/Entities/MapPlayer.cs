@@ -8,5 +8,10 @@ namespace JRPG_Platform_Designer.Entities
 {
     public class MapPlayer : MapObject
     {
+        public MapPlayer()
+        {
+            Icon.IsHitTestVisible = false;
+            
+        }
     }
 }

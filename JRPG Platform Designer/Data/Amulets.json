@@ -1,0 +1,116 @@
+[
+    {
+        "ID": "AM1",
+        "Rarity": "COMMON",
+        "Name": "Skullcoin Talisman",
+        "Description": "Unset",
+        "ImageName": "skullcoin-talisman.png",
+        "Value": "10",
+        "Stats": {
+            "HP": "0",
+            "DMG": "0",
+            "DEF": "0",
+            "SPD": "0",
+            "CRC": "0",
+            "CRD": "0",
+            "STA": "0",
+            "STR": "0"
+        },
+        "CharmID": ""
+    },
+    {
+        "ID": "AM2",
+        "Rarity": "COMMON",
+        "Name": "Coralburst Ring",
+        "Description": "Unset",
+        "ImageName": "coralburst-ring.png",
+        "Value": "10",
+        "Stats": {
+            "HP": "0",
+            "DMG": "0",
+            "DEF": "0",
+            "SPD": "0",
+            "CRC": "0",
+            "CRD": "0",
+            "STA": "0",
+            "STR": "0"
+        },
+        "CharmID": ""
+    },
+    {
+        "ID": "AM3",
+        "Rarity": "COMMON",
+        "Name": "Seadog Token",
+        "Description": "Unset",
+        "ImageName": "seadog-token.png",
+        "Value": "10",
+        "Stats": {
+            "HP": "0",
+            "DMG": "0",
+            "DEF": "0",
+            "SPD": "0",
+            "CRC": "0",
+            "CRD": "0",
+            "STA": "0",
+            "STR": "0"
+        },
+        "CharmID": ""
+    },
+    {
+        "ID": "AM4",
+        "Rarity": "COMMON",
+        "Name": "Cyclopsoul Tablet",
+        "Description": "Unset",
+        "ImageName": "cyclopsoul-tablet.png",
+        "Value": "10",
+        "Stats": {
+            "HP": "0",
+            "DMG": "0",
+            "DEF": "0",
+            "SPD": "0",
+            "CRC": "0",
+            "CRD": "0",
+            "STA": "0",
+            "STR": "0"
+        },
+        "CharmID": ""
+    },
+    {
+        "ID": "AM5",
+        "Rarity": "COMMON",
+        "Name": "Heartstone Pendant",
+        "Description": "Unset",
+        "ImageName": "heartstone-pendant.png",
+        "Value": "10",
+        "Stats": {
+            "HP": "0",
+            "DMG": "0",
+            "DEF": "0",
+            "SPD": "0",
+            "CRC": "0",
+            "CRD": "0",
+            "STA": "0",
+            "STR": "0"
+        },
+        "CharmID": ""
+    },
+    {
+        "ID": "AM6",
+        "Rarity": "COMMON",
+        "Name": "Gearforged Ring",
+        "Description": "Unset",
+        "ImageName": "gearforged-ring.png",
+        "Value": "10",
+        "Stats": {
+            "HP": "0",
+            "DMG": "0",
+            "DEF": "0",
+            "SPD": "0",
+            "CRC": "0",
+            "CRD": "0",
+            "STA": "0",
+            "STR": "0"
+        },
+        "CharmID": ""
+    }
+]
