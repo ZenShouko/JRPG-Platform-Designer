@@ -51,9 +51,10 @@
                     <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
                         <TextBlock Text="Tile:" Margin="5"/>
                         <ComboBox x:Name="ComboboxTiles" Margin="10 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
-                        <Button x:Name="BtnModifyTile" Width="35" Content="Pick" Click="ModifyCurrentAction"/>
-                        <TextBlock Text="Player Position:" Margin="20 5 0 5"/>
-                        <Button x:Name="BtnModifyPlayer" Width="35" Content="Pick" Margin="10 0" Padding="4 2" Click="ModifyCurrentAction"/>
+                        <Button x:Name="BtnModifyTile" Width="35" Height="24" Content="Pick" Click="ModifyCurrentAction"/>
+                        <Button x:Name="BtnFillAllTiles" Width="35" Height="24" Content="Fill" Click="BtnFillAllTiles_Click" Margin="5 0 0 0"/>
+                        <TextBlock Text="Player Position:" Margin="10 5 0 5"/>
+                        <Button x:Name="BtnModifyPlayer" Width="35" Height="24" Content="Pick" Margin="10 0" Padding="4 2" Click="ModifyCurrentAction"/>
                     </StackPanel>
                 </GroupBox>
                 
@@ -67,7 +68,7 @@
                             <ComboBoxItem Content="CURSED"/>
                             <ComboBoxItem Content="LEGENDARY"/>
                         </ComboBox>
-                        <Button x:Name="BtnModifyLootbox" Width="50" Content="Pick" Click="ModifyCurrentAction"/>
+                        <Button x:Name="BtnModifyLootbox" Width="50" Height="24" Content="Pick" Click="ModifyCurrentAction"/>
                     </StackPanel>
                 </GroupBox>
                 

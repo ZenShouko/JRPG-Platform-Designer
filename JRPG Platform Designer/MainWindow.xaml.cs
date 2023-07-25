@@ -481,5 +481,20 @@ namespace JRPG_Platform_Designer
                 }
             }
         }
+
+        private void BtnFillAllTiles_Click(object sender, RoutedEventArgs e)
+        {
+            //Fill all empty tiles with selected tile
+            Tile tile = GameData.AvailableTiles.Find(x => x.Type == ComboboxTiles.SelectedItem.ToString());
+
+            //Loop through all tiles
+            foreach (Border border in PlatformPreview.Children.Cast<UIElement>().Where(x => x is Border))
+            {
+                if (border.Tag == EmptyTile.TileColor)
+                {
+                    AssignNewTile(border, false);
+                }
+            }
+        }
     }
 }
