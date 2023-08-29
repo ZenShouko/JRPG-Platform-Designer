@@ -1,9 +1,36 @@
 [
     {
-        "Name": "ILLUFOE",
+        "ID": "F1",
+        "Name": "Maniani",
         "Level": "1",
-        "HP": "10",
-        "IconNames": "foe-neutral.png;foe-alert.png",
-        "MovementBehaviour": "StraightForward"
+        "Stats": {
+            "HP": "100",
+            "DMG": "15",
+            "DEF": "60",
+            "SPD": "60",
+            "STA": "20",
+            "STR": "5",
+            "CRC": "8",
+            "CRD": "5"
+        },
+        "Description": "Claims that it's not a cat but a rare pokemon.",
+        "ImageName": "maniani.png"
+    },
+    {
+        "ID": "F2",
+        "Name": "Pumpkin Head",
+        "Level": "1",
+        "Stats": {
+            "HP": "125",
+            "DMG": "18",
+            "DEF": "80",
+            "SPD": "40",
+            "STA": "35",
+            "STR": "4",
+            "CRC": "12",
+            "CRD": "8"
+        },
+        "Description": "Halloween is not over yet!",
+        "ImageName": "pumpkin-head.png"
     }
 ]

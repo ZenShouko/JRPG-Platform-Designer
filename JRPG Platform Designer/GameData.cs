@@ -17,7 +17,8 @@ namespace JRPG_Platform_Designer
     {
         public static List<Tile> AvailableTiles = new List<Tile>(); //List of all available tiles
         public static List<Tile> PlatformTiles = new List<Tile>(); //List of all tiles on the platform
-        public static List<Amulet> AmuletList = new List<Amulet>(); //List of all amulets
+        public static List<Character> FoeList = new List<Character>(); //List of all foes
+        public static List<MapFoe> MapFoes = new List<MapFoe>(); //List of all lineups
         
 
         public static MapPlayer Player = new MapPlayer();
@@ -27,7 +28,6 @@ namespace JRPG_Platform_Designer
             //Clear all lists
             AvailableTiles.Clear();
             PlatformTiles.Clear();
-            AmuletList.Clear();
             Player = new MapPlayer();
 
             //Playericon
@@ -47,10 +47,15 @@ namespace JRPG_Platform_Designer
                 AvailableTiles.Add(tile);
             }
 
-            //Amulets
-            ///Reads the amuletlist from the json file and adds it to the amulet list
-            json = File.ReadAllText("../../Data/Amulets.json");
-            AmuletList = JsonConvert.DeserializeObject<List<Amulet>>(json);
+            //Foes
+            ///Reads the foe list from the json file and adds it to the foe list
+            json = File.ReadAllText("../../Data/FoeList.json");
+            FoeList = JsonConvert.DeserializeObject<List<Character>>(json);
+        }
+
+        public static void AddMapFoe(MapFoe mf)
+        {
+            MapFoes.Add(mf);
         }
     }
 }

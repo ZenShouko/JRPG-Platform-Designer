@@ -19,6 +19,7 @@ namespace JRPG_Platform_Designer
 
         //TODO: Add MapFoe
         public MapPlayer Player { get; set; }
+        public MapFoe Foe { get; set; }
         public string TypeLootbox { get; set; }
 
 

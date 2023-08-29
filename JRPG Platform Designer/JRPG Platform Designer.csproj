@@ -61,6 +61,7 @@
     </ApplicationDefinition>
     <Compile Include="Entities\Amulet.cs" />
     <Compile Include="Entities\BaseItem.cs" />
+    <Compile Include="Entities\Character.cs" />
     <Compile Include="Entities\Coordinates.cs" />
     <Compile Include="Entities\lootbox.cs" />
     <Compile Include="Entities\MapFoe.cs" />
@@ -69,6 +70,14 @@
     <Compile Include="Entities\MapPlayer.cs" />
     <Compile Include="Entities\Stats.cs" />
     <Compile Include="Entities\Tile.cs" />
+    <Page Include="FoeListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="FoePartyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,6 +85,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="FoeListWindow.xaml.cs">
+      <DependentUpon>FoeListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FoePartyWindow.xaml.cs">
+      <DependentUpon>FoePartyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="GameData.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -107,7 +122,9 @@
     <None Include="Data\Characters.json" />
     <None Include="Data\Charms.json" />
     <None Include="Data\Collectables.json" />
-    <None Include="Data\FoeList.json" />
+    <Resource Include="Data\FoeList.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <None Include="Data\TileList.json" />
     <None Include="Data\Weapons.json" />
     <None Include="packages.config" />

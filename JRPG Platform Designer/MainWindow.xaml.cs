@@ -496,5 +496,19 @@ namespace JRPG_Platform_Designer
                 }
             }
         }
+
+        private void BtnCreateNewFoeParty_Click(object sender, RoutedEventArgs e)
+        {
+            //Open new window to allow user to create a new foe party
+            FoePartyWindow foePartyWindow = new FoePartyWindow();
+            foePartyWindow.ShowDialog();
+
+            //Load all mapfoes in combobox
+            ComboboxFoes.Items.Clear();
+            foreach (MapFoe mf in GameData.MapFoes)
+            {
+                ComboboxFoes.Items.Add($"Team []");
+            }
+        }
     }
 }

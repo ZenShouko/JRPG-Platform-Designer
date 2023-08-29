@@ -11,7 +11,6 @@ namespace JRPG_Platform_Designer.Entities
         public MapPlayer()
         {
             Icon.IsHitTestVisible = false;
-            
         }
     }
 }

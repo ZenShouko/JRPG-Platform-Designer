@@ -75,16 +75,14 @@
                 <!--Foe settings-->
                 <GroupBox Header="Foes" Margin="10">
                     <StackPanel Orientation="Horizontal" Margin="5">
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5 0">
+                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="5 0">
                             <TextBlock Text="Foe:" Margin="5"/>
                             <ComboBox x:Name="ComboboxFoes" Margin="10 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
                         </StackPanel>
                         <StackPanel Margin="5 0">
-                            <TextBlock Text="Foe Position:" Margin="5"/>
+                            <TextBlock Text="Create team:" Margin="5"/>
                             <StackPanel Orientation="Horizontal">
-                                <TextBox x:Name="TxtFoeX" Text="X" Width="50" Margin="5 0"/>
-                                <TextBox x:Name="TxtFoeY" Text="Y" Width="50" Margin="5 0"/>
-                                <Button x:Name="BtnApplyFoePosition" Content="Apply" Margin="10 0" Padding="4 2"/>
+                                <Button x:Name="BtnCreateNewFoeParty" Content="Create" Margin="10 5" Padding="4 2" Click="BtnCreateNewFoeParty_Click"/>
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>
