@@ -11,8 +11,9 @@ namespace JRPG_Platform_Designer.Entities
     {
         public string IconNames { get; set; }
         public bool HasDetectedPlayer { get; set; }
-        public string MovementBehavior { get; set; }
+        public string MovementBehaviour { get; set; }
         public List<Character> FoeTeam { get; set; } = new List<Character>();
+        public Coordinates Poistion { get; set; }
 
         [JsonIgnore]
         public string Name { get; set; }

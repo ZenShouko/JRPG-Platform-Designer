@@ -20,6 +20,14 @@ namespace JRPG_Platform_Designer
             RefreshGui();
         }
 
+        public FoePartyWindow(MapFoe mf)
+        {
+            InitializeComponent();
+            LineUp = mf.FoeTeam;
+            Initialize();
+            RefreshGui();
+        }
+
         List<Character> LineUp = new List<Character>();
         string MovementBehaviour = "";
         List<string> MovementBehaviours = new List<string>() { "Straight Forward", "Random" };
@@ -50,13 +58,18 @@ namespace JRPG_Platform_Designer
         private void RefreshGui()
         {
             //Refresh combobox
+            int index = ComboLineUp.SelectedIndex;
             ComboLineUp.Items.Clear();
             foreach (Character foe in LineUp)
             {
-                ComboLineUp.Items.Add($"[{foe.Level}] {foe.Name}");
+                ComboLineUp.Items.Add($"[{ComboLineUp.Items.Count + 1}] {foe.Name}");
             }
 
-            
+            //Set selected index
+            if (index >= 0 && index < LineUp.Count)
+                ComboLineUp.SelectedIndex = index;
+            else if (ComboLineUp.Items.Count > 0)
+                ComboLineUp.SelectedIndex = 0;
 
             //Button enable/disable
             BtnRemoveFoe.IsEnabled = LineUp.Count > 0;
@@ -89,9 +102,10 @@ namespace JRPG_Platform_Designer
             border.BorderBrush = Brushes.Black;
             border.BorderThickness = new Thickness(1, 1, 2, 2);
             border.CornerRadius = new CornerRadius(2);
-            border.Margin = new Thickness(5, 0, 5, 0);
+            border.Margin = new Thickness(5, 4, 5, 4);
             border.Padding = new Thickness(6, 4, 6, 4);
             border.Background = Brushes.White;
+            border.HorizontalAlignment = HorizontalAlignment.Center;
             border.Width = 150;
 
             //Stackpanel
@@ -110,6 +124,7 @@ namespace JRPG_Platform_Designer
             txtLevel.Text = $"Level: {foe.Level}";
             txtLevel.Foreground = Brushes.RoyalBlue;
             txtLevel.FontSize = 12;
+            TxtLevel.Margin = new Thickness(2, 0, 0, 0);
             stackPanel.Children.Add(txtLevel);
 
             return border;
@@ -390,7 +405,7 @@ namespace JRPG_Platform_Designer
             //Create MapFoe
             MapFoe mapFoe = new MapFoe();
             mapFoe.FoeTeam = LineUp;
-            mapFoe.MovementBehavior = MovementBehaviour;
+            mapFoe.MovementBehaviour = MovementBehaviour;
             mapFoe.Name = TxtTeamName.Text.Trim();
 
             //Add to list

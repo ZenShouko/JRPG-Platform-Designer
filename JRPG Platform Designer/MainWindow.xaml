@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:JRPG_Platform_Designer"
+        xmlns:local="clr-namespace:JRPG_Platform_Designer" d:Height="1000"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         Title="Platform Designer" Height="650" Width="1200">
     <Grid>
@@ -17,82 +17,125 @@
             <Grid x:Name="PlatformPreview" Background="Gray"></Grid>
             
             <!--#Control box-->
-            <StackPanel x:Name="ControlPanel" Grid.Column="1" Margin="10">
-                <!--Platform Properties-->
-                <DockPanel>
-                    <Image x:Name="PropertiesStatusIcon" Height="26" Width="26" Source="Icons/alert.png" DockPanel.Dock="Right"/>
-                    <GroupBox x:Name="PlatformPropertiesPanel" Header="Platform Properties" Margin="5 0" MouseDown="GroupBox_MouseDown">
-                        <StackPanel>
-                            <TextBlock Text="Name:" Margin="5"/>
-                            <TextBox x:Name="TxtName" Text="Test123" Margin="10 5" Padding="1"/>
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <StackPanel Margin="0 0 5 0">
-                                    <TextBlock Text="Columns:" Margin="5"/>
-                                    <TextBox x:Name="TxtColumns" Text="4" Margin="10 5" Padding="1"/>
+            <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="ControlPanel" Grid.Column="1" Margin="10">
+                    <!--Platform Properties-->
+                    <DockPanel>
+                        <Image x:Name="PropertiesStatusIcon" Height="26" Width="26" Source="Icons/alert.png" DockPanel.Dock="Right"/>
+                        <GroupBox x:Name="PlatformPropertiesPanel" Header="Platform Properties" Margin="5 0" MouseDown="GroupBox_MouseDown">
+                            <StackPanel>
+                                <TextBlock Text="Name:" Margin="5"/>
+                                <TextBox x:Name="TxtName" Text="Test123" Margin="10 5" Padding="1"/>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackPanel Margin="0 0 5 0">
+                                        <TextBlock Text="Columns:" Margin="5"/>
+                                        <TextBox x:Name="TxtColumns" Text="4" Margin="10 5" Padding="1"/>
+                                    </StackPanel>
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Text="rows:" Margin="5"/>
+                                        <TextBox x:Name="TxtRows" Text="4" Margin="10 5" Padding="1"/>
+                                    </StackPanel>
+                                </Grid>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                                    <Button Content="Apply" Click="ApplyPlatformProperties" Margin="5" Width="120"/>
                                 </StackPanel>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Text="rows:" Margin="5"/>
-                                    <TextBox x:Name="TxtRows" Text="4" Margin="10 5" Padding="1"/>
-                                </StackPanel>
-                            </Grid>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                                <Button Content="Apply" Click="ApplyPlatformProperties" Margin="5" Width="120"/>
                             </StackPanel>
+                        </GroupBox>
+                    </DockPanel>
+
+                    <!--Platform Tiles-->
+                    <DockPanel Margin="10">
+                        <Button x:Name="BtnModifyTile" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" VerticalAlignment="Center" Margin="10 0 4 0" Click="ModifyCurrentAction"/>
+                        <GroupBox Header="Tiles">
+                            <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
+                                <TextBlock Text="Tile:" Margin="5"/>
+                                <ComboBox x:Name="ComboboxTiles" Margin="10 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
+                                <Button x:Name="BtnFillAllTiles" Width="35" Height="24" Content="Fill" Click="BtnFillAllTiles_Click" Margin="5 0 0 0"/>
+                            </StackPanel>
+                        </GroupBox>
+
+                    </DockPanel>
+                    
+                    <!--Player-->
+                    <DockPanel Margin="10">
+                        <Button x:Name="BtnModifyPlayer" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" Margin="10 0 4 0" Padding="4 2" Click="ModifyCurrentAction"/>
+                        <GroupBox Header="Player">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Player Position:" Margin="10 5 0 5"/>
+                            </StackPanel>
+                        </GroupBox>
+                    </DockPanel>
+
+                    <!--Items-->
+                    <DockPanel Margin="10">
+                        <Button x:Name="BtnModifyLootbox" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" Margin="10 0 4 0" Click="ModifyCurrentAction"/>
+                        <GroupBox Header="Lootbox">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <TextBlock Text="Item:" Margin="5"/>
+                                <ComboBox x:Name="ComboboxLootboxType" Margin="10 5" Padding="4" MinWidth="150" SelectedIndex="0">
+                                    <ComboBoxItem Content="COMMON"/>
+                                    <ComboBoxItem Content="SPECIAL"/>
+                                    <ComboBoxItem Content="CURSED"/>
+                                    <ComboBoxItem Content="LEGENDARY"/>
+                                </ComboBox>
+                            </StackPanel>
+                        </GroupBox>
+                    </DockPanel>
+
+                    <!--Foe settings-->
+                    <DockPanel Margin="10">
+                        <Button x:Name="BtnPlaceFoeTeam" DockPanel.Dock="Right" Content="✏️" Height="28" Width="34" VerticalAlignment="Center" Margin="10 0 4 0" Click="ModifyCurrentAction"/>
+                        <GroupBox Header="Foes">
+                            <StackPanel Orientation="Horizontal" Margin="2">
+                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="5 0">
+                                    <TextBlock Text="Foe:" Margin="4"/>
+                                    <ComboBox x:Name="ComboboxFoes" Margin="6 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
+                                </StackPanel>
+                                <StackPanel Margin="5 0">
+                                    <TextBlock Text="Party actions:" Margin="4"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="BtnCreateNewFoeParty" Content="Create" Margin="4 5" Padding="4 2" Click="BtnCreateNewFoeParty_Click"/>
+                                        <Button x:Name="BtnModifyFoeParty" Content="Modify" Margin="4 5" Padding="4 2" Click="BtnModifyFoeParty_Click"/>
+                                        <Button x:Name="BtnDeleteFoeParty" Content="Delete" Margin="4 5" Padding="4 2" Click="BtnDeleteFoeParty_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </GroupBox>
+                    </DockPanel>
+
+                    <GroupBox Header="Tile Info" Margin="10">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <StackPanel>
+                                <TextBlock x:Name="TxtTileType" Text="Tile Type:" Margin="2 4"/>
+                                <TextBlock x:Name="TxtIsWalkable" Text="Is Walkable:" Margin="2 4"/>
+                            </StackPanel>
+                            <StackPanel Grid.Column="1">
+                                <TextBlock x:Name="TxtLootboxInfo" Text="Lootbox:" Margin="2 4"/>
+                                <TextBlock x:Name="TxtFoeInfo" Text="Foe party:" Margin="2 4"/>
+                            </StackPanel>
+                        </Grid>
+                    </GroupBox>
+
+                    <!--Save platform-->
+                    <GroupBox Header="Export" Margin="10">
+                        <StackPanel Margin="5">
+                            <StackPanel Orientation="Horizontal" Margin="5">
+                                <Button Content="Export platform" Width="100" HorizontalAlignment="Left" Click="ExportPlatform" Background="LightSeaGreen"/>
+                                <TextBlock Text="Save file to ../JRPG-Solution/JRPG-Project/Stages" FontStyle="Italic" Margin="10 0" Foreground="DarkSlateGray"/>
+                            </StackPanel>
+                            <Button Content="Load Platform (buggy)" Width="140" HorizontalAlignment="Left" Click="LoadPlatform_Click" Margin="5" Background="Tan"/>
                         </StackPanel>
                     </GroupBox>
-                </DockPanel>
-
-                <!--Platform Tiles-->
-                <GroupBox Header="Tiles" Margin="10">
-                    <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
-                        <TextBlock Text="Tile:" Margin="5"/>
-                        <ComboBox x:Name="ComboboxTiles" Margin="10 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
-                        <Button x:Name="BtnModifyTile" Width="35" Height="24" Content="Pick" Click="ModifyCurrentAction"/>
-                        <Button x:Name="BtnFillAllTiles" Width="35" Height="24" Content="Fill" Click="BtnFillAllTiles_Click" Margin="5 0 0 0"/>
-                        <TextBlock Text="Player Position:" Margin="10 5 0 5"/>
-                        <Button x:Name="BtnModifyPlayer" Width="35" Height="24" Content="Pick" Margin="10 0" Padding="4 2" Click="ModifyCurrentAction"/>
-                    </StackPanel>
-                </GroupBox>
-                
-                <!--Items-->
-                <GroupBox Header="Lootbox" Margin="10">
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <TextBlock Text="Item:" Margin="5"/>
-                        <ComboBox x:Name="ComboboxLootboxType" Margin="10 5" Padding="4" MinWidth="150" SelectedIndex="0">
-                            <ComboBoxItem Content="COMMON"/>
-                            <ComboBoxItem Content="SPECIAL"/>
-                            <ComboBoxItem Content="CURSED"/>
-                            <ComboBoxItem Content="LEGENDARY"/>
-                        </ComboBox>
-                        <Button x:Name="BtnModifyLootbox" Width="50" Height="24" Content="Pick" Click="ModifyCurrentAction"/>
-                    </StackPanel>
-                </GroupBox>
-                
-                <!--Foe settings-->
-                <GroupBox Header="Foes" Margin="10">
-                    <StackPanel Orientation="Horizontal" Margin="5">
-                        <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="5 0">
-                            <TextBlock Text="Foe:" Margin="5"/>
-                            <ComboBox x:Name="ComboboxFoes" Margin="10 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
-                        </StackPanel>
-                        <StackPanel Margin="5 0">
-                            <TextBlock Text="Create team:" Margin="5"/>
-                            <StackPanel Orientation="Horizontal">
-                                <Button x:Name="BtnCreateNewFoeParty" Content="Create" Margin="10 5" Padding="4 2" Click="BtnCreateNewFoeParty_Click"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-                
-                <!--Save platform-->
-                <GroupBox Header="Export" Margin="10">
-                    <Button Content="Export platform" Width="100" Click="ExportPlatform" Background="DarkSeaGreen"/>
-                </GroupBox>
-            </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </Window>

@@ -195,5 +195,10 @@
   <ItemGroup>
     <Resource Include="Icons\lootbox.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\foe-neutral.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
