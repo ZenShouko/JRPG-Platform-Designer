@@ -12,5 +12,19 @@ namespace JRPG_Platform_Designer
         public int Y { get; set; }
         public int DirectionX { get; set; }
         public int DirectionY { get; set; }
+
+        public void CopyFrom(Coordinates reference)
+        {
+            X = reference.X;
+            Y = reference.Y;
+            DirectionX = reference.DirectionX;
+            DirectionY = reference.DirectionY;
+        }
+
+        public void New(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 }

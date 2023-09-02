@@ -1,22 +1,27 @@
 [
-    {
-      "Type": "DEFAULT",
-      "TileColor": "Beige",
-      "IsWalkable": "True"
-    },
-    {
-      "Type": "GRASS",
-      "TileColor": "DarkSeaGreen",
-      "IsWalkable": "True"
-    },
-    {
-      "Type": "WALL",
-      "TileColor": "DarkSlateBlue",
-      "IsWalkable": "False"
-    },
-    {
-      "Type": "SEA",
-      "TileColor": "LightSteelBlue",
-      "IsWalkable": "False"
-    }
-  ]
+  {
+    "Type": "EMPTY",
+    "TileColor": "LightGray",
+    "IsWalkable": "False"
+  },
+  {
+    "Type": "DEFAULT",
+    "TileColor": "Beige",
+    "IsWalkable": "True"
+  },
+  {
+    "Type": "GRASS",
+    "TileColor": "DarkSeaGreen",
+    "IsWalkable": "True"
+  },
+  {
+    "Type": "WALL",
+    "TileColor": "DarkSlateBlue",
+    "IsWalkable": "False"
+  },
+  {
+    "Type": "SEA",
+    "TileColor": "LightSteelBlue",
+    "IsWalkable": "False"
+  }
+]

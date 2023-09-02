@@ -1,22 +1,18 @@
-﻿using System;
+﻿using JRPG_Platform_Designer.Entities;
+using Microsoft.Win32;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+//using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.Win32;
-using System.IO;
-using Newtonsoft.Json;
-using JRPG_Platform_Designer.Entities;
-using System.Diagnostics;
 using Path = System.IO.Path;
 
 namespace JRPG_Platform_Designer
@@ -26,18 +22,17 @@ namespace JRPG_Platform_Designer
         public MainWindow()
         {
             InitializeComponent();
-            AppPrep();
             GameData.InitializeData();
+            AppPrep();
             InitializeGUI();
         }
 
         #region Variables
+        string FilePath = "";
 
         Image CheckIcon = new Image();
         Image AlertIcon = new Image();
         Image ErrorIcon = new Image();
-
-        Tile EmptyTile = new Tile();
 
         public string CurrentAction = "";
         List<Button> ModifyActionButtons = new List<Button>();
@@ -51,11 +46,25 @@ namespace JRPG_Platform_Designer
         {
             ///Initializes the GUI
             ///Adds all the tiles to the combobox
-            foreach (Tile tile in GameData.AvailableTiles)
+            foreach (Tile tile in GameData.TileDictionary.Keys)
             {
                 ComboboxTiles.Items.Add(tile.Type);
             }
-            ComboboxTiles.SelectedIndex = 0;
+
+            ComboboxTiles.SelectedIndex = 1;
+
+            //Add all lootboxes to combobox
+            ComboboxLootboxType.Items.Add("COMMON");
+            ComboboxLootboxType.Items.Add("SPECIAL");
+            ComboboxLootboxType.Items.Add("CURSED");
+            ComboboxLootboxType.Items.Add("LEGENDARY");
+
+            //Load all mapfoes in combobox
+            ComboboxFoes.Items.Clear();
+            foreach (MapFoe mf in GameData.MapFoes)
+            {
+                ComboboxFoes.Items.Add(mf.Name);
+            }
         }
 
         private void AppPrep()
@@ -65,27 +74,27 @@ namespace JRPG_Platform_Designer
             AlertIcon.Source = new BitmapImage(new Uri("Icons/alert.png", UriKind.Relative));
             ErrorIcon.Source = new BitmapImage(new Uri("Icons/error.png", UriKind.Relative));
 
-            //Prepare an empty tile
-            Border EmptyBorder = new Border();
-            EmptyBorder.BorderBrush = Brushes.Black;
-            EmptyBorder.BorderThickness = new Thickness(1);
-            EmptyBorder.Background = Brushes.LightGray;
-            EmptyBorder.CornerRadius = new CornerRadius(2);
+            //Create border elements for all tiles
+            for (int i = 0; i < GameData.TileDictionary.Count - 1; i++)
+            {
+                //Get tile on index i
+                Tile tile = GameData.TileDictionary.Keys.ElementAt(i);
 
-            EmptyTile.TileElement = EmptyBorder;
-            EmptyTile.Type = "Empty";
-            EmptyTile.IsWalkable = false;
-            EmptyTile.TileColor = Brushes.LightGray;
-
-            //Player
-            GameData.Player.Icon = new Image();
-            GameData.Player.Icon.Source = new BitmapImage(new Uri("../../Icons/player.png", UriKind.Relative));
+                //Create border element
+                GameData.TileDictionary[tile] = GetBorder(tile);
+            }
 
             //Add modify action buttons to list
             ModifyActionButtons.Add(BtnModifyTile);
             ModifyActionButtons.Add(BtnModifyLootbox);
             ModifyActionButtons.Add(BtnModifyPlayer);
             ModifyActionButtons.Add(BtnPlaceFoeTeam);
+
+            //Disable all modify action buttons
+            foreach (Button button in ModifyActionButtons)
+            {
+                button.IsEnabled = false;
+            }
         }
 
         private void ApplyPlatformProperties(object sender, RoutedEventArgs e)
@@ -120,10 +129,16 @@ namespace JRPG_Platform_Designer
             PropertiesStatusIcon.Source = CheckIcon.Source;
 
             //Colapse panel
-            CollapsePanel("PlatformPropertiesPanel");
+            //CollapsePanel("PlatformPropertiesPanel");
 
             //Initialize preview grid
             IntializePreviewGrid();
+
+            //Enable modify action buttons
+            foreach (Button button in ModifyActionButtons)
+            {
+                button.IsEnabled = true;
+            }
         }
 
         private void CollapsePanel(string panel)
@@ -146,7 +161,8 @@ namespace JRPG_Platform_Designer
             PlatformPreview.RowDefinitions.Clear();
             PlatformPreview.Children.Clear();
 
-            GameData.PlatformTiles.Clear();
+            //GameData.PlatformTiles.Clear();
+            GameData.PlatformTileDictionary.Clear();
 
             //Create columns
             for (int i = 0; i < PlatformProperties.Columns; i++)
@@ -164,28 +180,26 @@ namespace JRPG_Platform_Designer
             int currentX = 0;
             int currentY = 0;
 
-            //Add EMT tiles to platform tilelist
+            //Add empty tiles to platform tilelist
+            Tile referenceTile = GameData.TileDictionary.FirstOrDefault(x => x.Key.Type == "EMPTY").Key;
             for (int i = 0; i < PlatformProperties.Rows; i++)
             {
                 for (int j = 0; j < PlatformProperties.Columns; j++)
                 {
                     Tile newTile = new Tile();
-                    newTile.Type = EmptyTile.Type;
-                    newTile.TileColor = EmptyTile.TileColor;
-                    newTile.IsWalkable = EmptyTile.IsWalkable;
+                    newTile.CopyTile(referenceTile);
                     newTile.Position.X = currentX;
                     newTile.Position.Y = currentY;
+                    newTile.TileElement = GetBorder(newTile);
 
-                    AddEmptyTile(newTile);
-                    GameData.PlatformTiles.Add(newTile);
+                    //GameData.PlatformTiles.Add(newTile);
+                    GameData.PlatformTileDictionary.Add($"{j}X{i}Y", newTile);
+                    AddTileElementToGrid(newTile);
                     currentX++;
                 }
                 currentY++;
                 currentX = 0;
             }
-
-            //Add default tiles to grid
-            //AddDefaultTilesToGrid();
         }
 
         private void ModifyCurrentAction(object sender, RoutedEventArgs e)
@@ -227,7 +241,31 @@ namespace JRPG_Platform_Designer
 
         #region Tiles
 
-        private void AddEmptyTile(Tile tile)
+        private void AddTileElementToGrid(Tile tile)
+        {
+            //Add border from tile to grid
+            Grid.SetColumn(tile.TileElement, tile.Position.X);
+            Grid.SetRow(tile.TileElement, tile.Position.Y);
+            PlatformPreview.Children.Add(tile.TileElement);
+            return;
+        }
+
+        private void ReplaceTile(Tile currentTile)
+        {
+            //Get reference tile
+            Tile referenceTile = GameData.TileDictionary.FirstOrDefault(x => x.Key.Type == (string)ComboboxTiles.SelectedValue).Key;
+
+            //Replace tile
+            currentTile.CopyTile(referenceTile);
+        }
+
+        private void ReplaceTileWith(Tile currentTile, Tile referenceTile)
+        {
+            //Replace tile
+            currentTile.CopyTile(referenceTile);
+        }
+
+        private Border GetBorder(Tile tile)
         {
             //Assign default props for the border
             Border border = new Border();
@@ -242,13 +280,7 @@ namespace JRPG_Platform_Designer
             border.MouseLeave += Border_MouseLeave;
             border.MouseMove += Border_MouseMove;
 
-            //Assign border to tile
-            tile.TileElement = border;
-
-            //Add border to grid
-            Grid.SetColumn(tile.TileElement, tile.Position.X);
-            Grid.SetRow(tile.TileElement, tile.Position.Y);
-            PlatformPreview.Children.Add(tile.TileElement);
+            return border;
         }
 
         private void Border_MouseUp(object sender, MouseButtonEventArgs e)
@@ -266,7 +298,9 @@ namespace JRPG_Platform_Designer
             //Revert back to original colour.
             Border border = (Border)sender;
 
-            border.Background = border.Tag == Brushes.LightGray ? Brushes.LightGray : (Brush)border.Tag;
+            Brush tileColor = GameData.PlatformTileDictionary[GetCoordinates(border)].TileColor;
+
+            border.Background = tileColor;
         }
 
         private void Border_MouseEnter(object sender, MouseEventArgs e)
@@ -290,9 +324,9 @@ namespace JRPG_Platform_Designer
                 case "Tile":
                     {
                         if (e.ChangedButton == MouseButton.Left)
-                            AssignNewTile(border, false);
-                        else if (e.ChangedButton == MouseButton.Right)
-                            AssignNewTile(border, true);
+                            ReplaceTile(GameData.PlatformTileDictionary[GetCoordinates(border)]);
+                        //else if (e.ChangedButton == MouseButton.Right)
+                        //    AssignNewTile(border, true);
                         break;
                     }
                 case "Player":
@@ -321,58 +355,99 @@ namespace JRPG_Platform_Designer
                         break;
                     }
             }
+
+            //Display tile info
+            DisplayTileInfo(border);
         }
 
-        private void AssignNewTile(Border border, bool addEmptyTile)
+        private void LoadNewTiles(List<Tile> newTileList)
         {
-            Tile newTile = null;
-            if (!addEmptyTile)
+            //[1] Copy tiles
+            for (int i = 0; i < newTileList.Count; i++)
             {
-                //Get tile from list
-                newTile = GameData.AvailableTiles.Find(x => x.Type == ComboboxTiles.SelectedItem.ToString());
-            }
-            else
-            {
-                //Get tile from list
-                newTile = EmptyTile;
+                ReplaceTileWith(GameData.PlatformTileDictionary.ElementAt(i).Value, newTileList[i]);
             }
 
-            //Replace current tile with new tile
-            Tile currentTile = GameData.PlatformTiles.Find(x => x.Position.X == Grid.GetColumn(border) && x.Position.Y == Grid.GetRow(border));
+            //[2] Copy player
+            AssignPlayerPosition(GameData.PlatformTileDictionary.FirstOrDefault(x => x.Value.Player != null).Value.TileElement);
 
-            //Bandage solution
-            if (currentTile == null)
-                //return;
+            //[3] Copy lootboxes
+            foreach (Tile tile in GameData.PlatformTileDictionary.Values.Where(x => !string.IsNullOrEmpty(x.TypeLootbox)))
+            {
+                //Put combobox on correct value
+                //for (int i = 0; i < ComboboxLootboxType.Items.Count; i++)
+                //{
+                //    ComboBoxItem currentItem = (ComboBoxItem)ComboboxLootboxType.Items[i];
+                //    string itemContent = currentItem.Content.ToString();
+                //    if (itemContent == tile.TypeLootbox)
+                //    {
+                //        ComboboxLootboxType.SelectedIndex = i;
+                //        break;
+                //    }
+                //}
+                ComboboxLootboxType.SelectedItem = tile.TypeLootbox;
 
-            //Assign new tile properties to current tile
-            currentTile.Type = newTile.Type;
-            currentTile.IsWalkable = newTile.IsWalkable;
-            currentTile.TileColor = newTile.TileColor;
+                //Assign lootbox
+                AssignLootboxPosition(tile.TileElement, false);
+            }
 
-            //Assign new tile properties to border
-            border.Background = currentTile.TileColor;
-            border.Tag = currentTile.TileColor;
+            //[4] Copy foes
+            foreach (Tile tile in GameData.PlatformTileDictionary.Values.Where(x => x.Foe != null))
+            {
+                //[?] Does foe party exist in linup?
+                if (GameData.DoesPartyExist(tile.Foe))
+                {
+                    //Put combobox on correct value
+                    ComboboxFoes.SelectedItem = tile.Foe.Name;
+
+                    //Assign foe party
+                    PlaceFoeParty(tile.TileElement);
+                    continue;
+                }
+                else
+                {
+                    //Create new foe party
+                    MapFoe newParty = new MapFoe();
+                    newParty.CopyFrom(tile.Foe);
+
+                    //Add to lineup
+                    GameData.MapFoes.Add(newParty);
+
+                    //Add to combobox
+                    ComboboxFoes.Items.Add(newParty.Name);
+                    ComboboxFoes.SelectedIndex = ComboboxFoes.Items.Count - 1;
+
+                    //Assign foe party
+                    PlaceFoeParty(tile.TileElement);
+                }
+            }
         }
 
         private void BtnFillAllTiles_Click(object sender, RoutedEventArgs e)
         {
-            //Fill all empty tiles with selected tile
-            Tile tile = GameData.AvailableTiles.Find(x => x.Type == ComboboxTiles.SelectedItem.ToString());
-
-            //Loop through all tiles
-            foreach (Border border in PlatformPreview.Children.Cast<UIElement>().Where(x => x is Border))
+            //If empty is selected, replace all tiles with empty tiles
+            if (ComboboxTiles.SelectedItem.ToString() == "EMPTY")
             {
-                if (border.Tag == EmptyTile.TileColor)
+                foreach (Tile tile in GameData.PlatformTileDictionary.Values)
                 {
-                    AssignNewTile(border, false);
+                    ReplaceTile(tile);
                 }
+
+                return;
+            }
+
+            //Loop through all empty tiles
+            foreach (Tile tile in GameData.PlatformTileDictionary.Values.Where(x => x.Type == "EMPTY"))
+            {
+                //Replace tile
+                ReplaceTile(tile);
             }
         }
 
         private void DisplayTileInfo(Border border)
         {
             //Get tile
-            Tile selectedTile = GameData.PlatformTiles.Find(x => x.Position.X == Grid.GetColumn(border) && x.Position.Y == Grid.GetRow(border));
+            Tile selectedTile = GameData.PlatformTileDictionary[GetCoordinates(border)];
 
             //Display tile info
             if (selectedTile is null)
@@ -397,7 +472,7 @@ namespace JRPG_Platform_Designer
         private void AssignPlayerPosition(Border border)
         {
             //Check if platform has been created
-            if (GameData.PlatformTiles.Count == 0)
+            if (GameData.PlatformTileDictionary.Count == 0)
             {
                 MessageBox.Show("Please create a platform first!");
                 return;
@@ -405,7 +480,7 @@ namespace JRPG_Platform_Designer
 
 
             //Add player to list
-            Tile newTile = GameData.PlatformTiles.Find(t => t.Position.X == Grid.GetColumn(border) && t.Position.Y == Grid.GetRow(border));
+            Tile newTile = GameData.PlatformTileDictionary[GetCoordinates(border)];
             if (newTile is null || !newTile.IsWalkable || newTile.Foe != null || newTile.TypeLootbox != null)
             {
                 MessageBox.Show("Placed player on an invalid tile!");
@@ -413,17 +488,12 @@ namespace JRPG_Platform_Designer
             }
 
             //Remove player from the current tile
-            Tile oldTile = GameData.PlatformTiles.Find(tl => tl.Player != null);
-            if (oldTile != null)
-            {
-                oldTile.Player = null;
-            }
+            if (GameData.PlatformTileDictionary.Any(x => x.Value.Player != null))
+                GameData.PlatformTileDictionary.Values.FirstOrDefault(tl => tl.Player != null).Player = null;
 
-            //Remove old player
+            //Remove Image from grid
             if (PlatformPreview.Children.Contains(GameData.Player.Icon))
-            {
                 PlatformPreview.Children.Remove(GameData.Player.Icon);
-            }
 
             //Add player to new tile
             newTile.Player = GameData.Player;
@@ -435,6 +505,9 @@ namespace JRPG_Platform_Designer
             Grid.SetColumn(GameData.Player.Icon, GameData.Player.Position.X);
             Grid.SetRow(GameData.Player.Icon, GameData.Player.Position.Y);
             PlatformPreview.Children.Add(GameData.Player.Icon);
+
+            //Disable player icon hit test
+            GameData.Player.Icon.IsHitTestVisible = false;
         }
 
         #endregion
@@ -442,19 +515,27 @@ namespace JRPG_Platform_Designer
         #region Lootbox
         private void AssignLootboxPosition(Border border, bool removeItem)
         {
-            Tile selectedTile = GameData.PlatformTiles.
-                Find(t => t.Position.X == Grid.GetColumn(border) && t.Position.Y == Grid.GetRow(border));
-            
+            Tile selectedTile = GameData.PlatformTileDictionary[GetCoordinates(border)];
+
             if (removeItem)
             {
                 //Return if tile has no lootbox
-                if (string.IsNullOrEmpty(selectedTile.TypeLootbox)) { return; }
+                if (!GameData.PlatformLootboxes.ContainsKey(GetCoordinates(border)))
+                    return;
 
-                //Get index of lootbox image
-                int index = PlatformPreview.Children.IndexOf(PlatformPreview.Children.Cast<UIElement>().Where(x => x is Image).Where(x => ((Image)x).Tag == selectedTile).FirstOrDefault());
+                //Get image from platformpreview at same position as selected tile with the name "ImgLootbox"
+                Image lootboxImage = PlatformPreview.Children.Cast<UIElement>()
+                    .Where(x => x is Image)
+                    .Where(x => ((Image)x).Name == $"ImgLootbox{GetCoordinates(border)}")
+                    .FirstOrDefault() as Image;
 
-                //Remove lootbox image
-                PlatformPreview.Children.RemoveAt(index);
+                //-Remove lootbox image
+                PlatformPreview.Children.Remove(lootboxImage);
+
+                //Remove lootbox from platformlootboxes
+                GameData.PlatformLootboxes.Remove(GetCoordinates(border));
+
+                //Remove lootbox from tile
                 selectedTile.TypeLootbox = null;
                 return;
             }
@@ -469,18 +550,22 @@ namespace JRPG_Platform_Designer
             //Add lootbox to tile
             selectedTile.TypeLootbox = ComboboxLootboxType.Text;
 
-            //If tile already contains a lootbox image, return
-            if (PlatformPreview.Children.Cast<UIElement>().Where(x => x is Image).Where(x => ((Image)x).Tag == selectedTile).FirstOrDefault() != null) { return; }
-            
+            //[!] Check if platformlootboxes contains a key with the same position.
+            if (GameData.PlatformLootboxes.ContainsKey(GetCoordinates(border)))
+                return;
+
             //Add lootbox image
             Image imgBox = new Image();
             imgBox.Source = new BitmapImage(new Uri(@"../../Icons/lootbox.png", UriKind.Relative));
-            imgBox.Tag = selectedTile;
+            imgBox.Name = $"ImgLootbox{GetCoordinates(border)}"; //Add coordinates to easily find the image
             imgBox.IsHitTestVisible = false;
 
-            Grid.SetColumn(imgBox, selectedTile.Position.X);
-            Grid.SetRow(imgBox, selectedTile.Position.Y);
+            Grid.SetColumn(imgBox, Grid.GetColumn(border));
+            Grid.SetRow(imgBox, Grid.GetRow(border));
             PlatformPreview.Children.Add(imgBox);
+
+            //Add lootbox to dictionary
+            GameData.PlatformLootboxes.Add(GetCoordinates(border), selectedTile.TypeLootbox);
         }
 
         #endregion
@@ -505,11 +590,13 @@ namespace JRPG_Platform_Designer
             //If no foe party is selected, return
             if (ComboboxFoes.SelectedIndex == -1) { return; }
 
-            //Get selected foe party
-            MapFoe selectedFoe = GameData.MapFoes.Find(x => x.Name == ComboboxFoes.SelectedItem.ToString());
+            //Create a new copy of the selected foe party
+            MapFoe referenceParty = GameData.MapFoes.Find(x => x.Name == ComboboxFoes.SelectedItem.ToString());
+            MapFoe mFoe = new MapFoe();
+            mFoe.CopyFrom(referenceParty);
 
             //Get tile
-            Tile selectedTile = GameData.PlatformTiles.Find(x => x.Position.X == Grid.GetColumn(border) && x.Position.Y == Grid.GetRow(border));
+            Tile selectedTile = GameData.PlatformTileDictionary[GetCoordinates(border)];
 
             //Check if tile is walkable
             if (!selectedTile.IsWalkable)
@@ -519,51 +606,54 @@ namespace JRPG_Platform_Designer
             }
             else if (selectedTile.Player != null || selectedTile.TypeLootbox != null)
             {
-                MessageBox.Show("Place the foe party on an empty tile!");
+                MessageBox.Show("Place the foe party on an unoccupied tile!");
                 return;
             }
 
-            //Add foe party to tile
-            selectedTile.Foe = selectedFoe;
+            //Add foe party to tile. Will also replace already existing ones.
+            selectedTile.Foe = null;
+            selectedTile.Foe = mFoe;
 
             //Set foe position to tile position
-            selectedFoe.Position.X = selectedTile.Position.X;
-            selectedFoe.Position.Y = selectedTile.Position.Y;
+            mFoe.Position.New(selectedTile.Position.X, selectedTile.Position.Y);
 
             //If tile already contains a foe image, return
-            if (PlatformPreview.Children.Cast<UIElement>().Where(x => x is Image).Where(x => ((Image)x).Tag == selectedTile).FirstOrDefault() != null) { return; }
+            if (GameData.PlatformFoes.ContainsKey(GetCoordinates(border)))
+            {
+                //[!] Replace foe party in dictionary
+                GameData.PlatformFoes[GetCoordinates(border)] = mFoe;
+                return;
+            }
 
             //Add foe party image
-            Image imgFoe = new Image();
-            imgFoe.Source = new BitmapImage(new Uri(@"../../Icons/foe-neutral.png", UriKind.Relative));
-            imgFoe.Tag = "foeImage" + GameData.FoeList.Count;
-            imgFoe.IsHitTestVisible = false;
+            mFoe.Icon.Name = $"ImgFoe{GetCoordinates(border)}";
+            Grid.SetColumn(mFoe.Icon, selectedTile.Position.X);
+            Grid.SetRow(mFoe.Icon, selectedTile.Position.Y);
+            PlatformPreview.Children.Add(mFoe.Icon);
+            mFoe.Icon.IsHitTestVisible = false;
 
-            Grid.SetColumn(imgFoe, selectedTile.Position.X);
-            Grid.SetRow(imgFoe, selectedTile.Position.Y);
-            PlatformPreview.Children.Add(imgFoe);
+            //Add foe party to dictionary
+            GameData.PlatformFoes.Add(GetCoordinates(border), mFoe);
         }
 
         private void RemoveFoe(Border border)
         {
-            //Get tile
-            Tile selectedTile = GameData.PlatformTiles.Find(x => x.Position.X == Grid.GetColumn(border) && x.Position.Y == Grid.GetRow(border));
-
-            //If tile has no foe, return
-            if (selectedTile.Foe == null) { return; }
-
-            //Get mapfoe
-            MapFoe mFoe = selectedTile.Foe;
+            //Return if tile doesn't contain foe
+            if (!GameData.PlatformFoes.ContainsKey(GetCoordinates(border)))
+                return;
 
             //Remove foe from tile
-            selectedTile.Foe = null;
+            GameData.PlatformFoes.Remove(GetCoordinates(border));
+            GameData.PlatformTileDictionary[GetCoordinates(border)].Foe = null;
 
-            //Remove foe image
-            Image imgFoe = (Image)PlatformPreview.Children.Cast<UIElement>().Where(x => x is Image).Where(x => ((Image)x).Tag.ToString().Contains("foeImage")).FirstOrDefault();
-
-            PlatformPreview.Children.Remove(imgFoe);
+            //Get image from platformpreview at same position as selected tile with the name "ImgFoe"
+            Image foeImage = PlatformPreview.Children
+                .Cast<UIElement>()
+                .Where(x => x is Image)
+                .Where(x => ((Image)x).Name == $"ImgFoe{GetCoordinates(border)}")
+                .FirstOrDefault() as Image;
+            PlatformPreview.Children.Remove(foeImage);
         }
-
 
         private void BtnModifyFoeParty_Click(object sender, RoutedEventArgs e)
         {
@@ -602,8 +692,16 @@ namespace JRPG_Platform_Designer
 
         #region Export
 
-        private void ExportPlatform(object sender, RoutedEventArgs e)
+        private void BtnExport_Click(object sender, RoutedEventArgs e)
         {
+            //Check if platform is valid
+            if (!GameData.IsPlatformValid()) 
+            {
+                MessageBox.Show("Platform is not valid. Make sure the platform has atleast 1 tile, no empty tiles, and contains the player.", "Error"
+                    , MessageBoxButton.OK, MessageBoxImage.Stop); 
+                return;
+            }
+
             //Pick a destionation path
             string path = GetDestinationPath();
             if (path == null) { return; }
@@ -614,8 +712,17 @@ namespace JRPG_Platform_Designer
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             };
 
+            //Export
+            ExportPlatform(path);
+        }
+
+        private void ExportPlatform(string path)
+        {
+            //Get a list of all platform tiles
+            List<Tile> platformTiles = GameData.PlatformTileDictionary.Values.ToList();
+
             //Serialize platformTiles
-            string json = JsonConvert.SerializeObject(GameData.PlatformTiles);
+            string json = JsonConvert.SerializeObject(platformTiles);
 
             //Write json to file
             File.WriteAllText(path, json);
@@ -631,8 +738,12 @@ namespace JRPG_Platform_Designer
             dialog.Filter = "Jasooon Deruuulooo (*.json)|*json";
             //Add json file extension
             dialog.FileName = PlatformProperties.Name + ".json";
-            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             dialog.Title = "Select a folder";
+
+            if (GameData.DefaultSavePath != null)
+                dialog.InitialDirectory = GameData.DefaultSavePath;
+            else
+                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
             //Open dialog
             if (dialog.ShowDialog() == true)
@@ -649,49 +760,93 @@ namespace JRPG_Platform_Designer
 
         private void LoadPlatform_Click(object sender, RoutedEventArgs e)
         {
-            //Pick a file
-            string filePath = "";
-            OpenFileDialog dialog = new OpenFileDialog();
-            dialog.Filter = "Jasooon Deruuulooo (*.json)|*json";
-            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            dialog.Title = "Select a file";
+            try
+            {
+                //Pick a file
+                string filePath = "";
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Filter = "Jasooon Deruuulooo (*.json)|*json";
+                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                dialog.Title = "Select a file";
 
-            //Open dialog
-            if (dialog.ShowDialog() == true)
-            {
-                filePath = dialog.FileName;
+                //Open dialog
+                if (dialog.ShowDialog() == true)
+                    filePath = dialog.FileName;
+                else
+                    return;
+
+                //Save path
+                this.FilePath = filePath;
+
+                //Read json from file
+                string json = File.ReadAllText(filePath);
+
+                //Deserialize json
+                List<Tile> tileList = JsonConvert.DeserializeObject<List<Tile>>(json);
+
+                //Set platform properties
+                TxtName.Text = Path.GetFileName(filePath).Split('.')[0];
+                TxtColumns.Text = tileList.Max(x => x.Position.X + 1).ToString();
+                TxtRows.Text = tileList.Max(x => x.Position.Y + 1).ToString();
+
+                //Load platform
+                ApplyPlatformProperties(sender, e);
+
+                //Set tiles
+                LoadNewTiles(tileList);
+
+                //Show success message
+                MessageBox.Show("Platform loaded successfully!", "Succes :)");
+
+                //Enable update button
+                BtnUpdate.IsEnabled = true;
             }
-            else
+            catch  (Exception ex)
             {
+                MessageBox.Show("Error while loading the platform. Aborting operation.", "Error");
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private string GetCoordinates(Border border)
+        {
+            return $"{Grid.GetColumn(border)}X{Grid.GetRow(border)}Y";
+        }
+
+        private void ButtonReset_Click(object sender, RoutedEventArgs e)
+        {
+            //Just restart the app lol >:-)
+            Close();
+            System.Diagnostics.Process.Start(Application.ResourceAssembly.Location);
+        }
+
+        private void BtnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            if (!GameData.IsPlatformValid())
+            {
+                System.Windows.MessageBox.Show("Platform is not valid. Make sure the platform has atleast 1 tile, no empty tiles, and contains the player.", "Error"
+                                       , MessageBoxButton.OK, MessageBoxImage.Stop);
                 return;
             }
 
-            //Read json from file
-            string json = File.ReadAllText(filePath);
+            //save current platform to FilePath
+            ExportPlatform(FilePath);
+        }
 
-            //Deserialize json
-            List<Tile> tileList = JsonConvert.DeserializeObject<List<Tile>>(json);
+        private void BtnDefaultDirectory(object sender, RoutedEventArgs e)
+        {
+            //Open file dialog for user to select a folder
+            System.Windows.Forms.FolderBrowserDialog dialog = new System.Windows.Forms.FolderBrowserDialog();
 
-            //Set platform properties
-            TxtName.Text = Path.GetFileName(filePath).Split('.')[0];
-            TxtColumns.Text = tileList.Max(x => x.Position.X + 1).ToString();
-            TxtRows.Text = tileList.Max(x => x.Position.Y + 1).ToString();
+            //Get dialog result
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
 
-            //Load platform
-            ApplyPlatformProperties(sender, e);
-
-            //Set tiles
-            GameData.PlatformTiles = tileList;
-
-            //Iterate over each border in platform preview
-            foreach (Border border in PlatformPreview.Children.Cast<Border>())
+            //Open dialog
+            if (result == System.Windows.Forms.DialogResult.OK)
             {
-                //Add tile to border
-                AssignNewTile(border, false);
+                //Save path
+                GameData.AssignNewDefaultDirectory(dialog.SelectedPath);
             }
-
-            //Show success message
-            MessageBox.Show("Platform loaded successfully!", "Succes :)");
         }
     }
 }

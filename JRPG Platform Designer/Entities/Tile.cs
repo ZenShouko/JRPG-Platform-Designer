@@ -1,10 +1,5 @@
 ﻿using JRPG_Platform_Designer.Entities;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -25,5 +20,33 @@ namespace JRPG_Platform_Designer
 
         [JsonIgnore]
         public Border TileElement { get; set; }
+
+        public void CopyTile(Tile referenceTile)
+        {
+            //[!] Reference tiles don't have coordinates, so don't copy them
+            //Copy all properties from reference tile
+            Type = referenceTile.Type;
+            TileColor = referenceTile.TileColor;
+            IsWalkable = referenceTile.IsWalkable;
+            TypeLootbox = referenceTile.TypeLootbox;
+
+            //Safely copy player and foe. Remove first, then add.
+            if (referenceTile.Player != null)
+            {
+                referenceTile.Player = null;
+                Player = GameData.Player;
+            }
+
+            if (referenceTile.Foe != null)
+            {
+                MapFoe mf = referenceTile.Foe;
+                referenceTile.Foe = null;
+                Foe = mf;
+            }
+
+            //Copy tile element background color
+            if (TileElement != null)
+                TileElement.Background = TileColor;
+        }
     }
 }

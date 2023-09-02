@@ -24,5 +24,52 @@ namespace JRPG_Platform_Designer.Entities
         [JsonIgnore]
         public Image CharImage { get; set; }
         public bool IsModified { get; set; } = false;
+
+        public void CopyFrom(Character reference)
+        {
+            //Copy all the properties
+            Level = reference.Level;
+            Stats.CopyFrom(reference.Stats);
+            EquipmentIDs = reference.EquipmentIDs;
+            ID = reference.ID;
+            Name = reference.Name;
+            Description = reference.Description;
+            ImageName = reference.ImageName;
+            IsModified = reference.IsModified;
+        }
+
+        /// <summary>
+        /// Compares characters to see if they're the same.
+        /// </summary>
+        /// <param name="reference"></param>
+        /// <returns></returns>
+        public bool Compare(Character reference)
+        {
+            //Check level
+            if (Level != reference.Level)
+                return false;
+
+            //Check stats
+            if (!Stats.Compare(reference.Stats))
+                return false;
+
+            //Check ID
+            if (ID != reference.ID)
+                return false;
+
+            //Check name and description
+            if (Name != reference.Name || Description != reference.Description)
+                return false;
+
+            //Check image name
+            if (ImageName != reference.ImageName)
+                return false;
+
+            //Check isModified
+            if (IsModified != reference.IsModified)
+                return false;
+
+            return true;
+        }
     }
 }

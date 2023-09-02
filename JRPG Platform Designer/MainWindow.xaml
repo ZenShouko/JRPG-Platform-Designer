@@ -76,12 +76,7 @@
                         <GroupBox Header="Lootbox">
                             <StackPanel Orientation="Horizontal" Margin="5">
                                 <TextBlock Text="Item:" Margin="5"/>
-                                <ComboBox x:Name="ComboboxLootboxType" Margin="10 5" Padding="4" MinWidth="150" SelectedIndex="0">
-                                    <ComboBoxItem Content="COMMON"/>
-                                    <ComboBoxItem Content="SPECIAL"/>
-                                    <ComboBoxItem Content="CURSED"/>
-                                    <ComboBoxItem Content="LEGENDARY"/>
-                                </ComboBox>
+                                <ComboBox x:Name="ComboboxLootboxType" Margin="10 5" Padding="4" MinWidth="150" SelectedIndex="0"/>
                             </StackPanel>
                         </GroupBox>
                     </DockPanel>
@@ -127,11 +122,23 @@
                     <!--Save platform-->
                     <GroupBox Header="Export" Margin="10">
                         <StackPanel Margin="5">
+                            <TextBlock  Text="▽ Save new platform:" FontSize="14" VerticalAlignment="Center" Margin="10 0" Foreground="DarkSlateGray"/>
                             <StackPanel Orientation="Horizontal" Margin="5">
-                                <Button Content="Export platform" Width="100" HorizontalAlignment="Left" Click="ExportPlatform" Background="LightSeaGreen"/>
-                                <TextBlock Text="Save file to ../JRPG-Solution/JRPG-Project/Stages" FontStyle="Italic" Margin="10 0" Foreground="DarkSlateGray"/>
+                                <Button Content="Export platform" Padding="10 4" Margin="5 2" HorizontalAlignment="Left"  Click="BtnExport_Click" Background="LightSeaGreen"/>
+                                <TextBlock Text="Save file to ../JRPG-Solution/JRPG-Project/Stages" FontStyle="Italic" VerticalAlignment="Center" Margin="10 0" Foreground="DarkSlateGray"/>
                             </StackPanel>
-                            <Button Content="Load Platform (buggy)" Width="140" HorizontalAlignment="Left" Click="LoadPlatform_Click" Margin="5" Background="Tan"/>
+                            
+                            <TextBlock  Text="▽ Load and modify existing platform:" FontSize="14" VerticalAlignment="Center" Margin="10 12 0 0" Foreground="DarkSlateGray"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                                <Button Content="Load Platform" MinWidth="120" Padding="10 4" HorizontalAlignment="Left" Click="LoadPlatform_Click" Margin="5 2" Background="Tan"/>
+                                <Button x:Name="BtnUpdate" Content="Update Platform" IsEnabled="False" MinWidth="120" Padding="10 4" Margin="5 2" Background="YellowGreen" FontWeight="Bold" Click="BtnUpdate_Click"/>
+                            </StackPanel>
+
+                            <TextBlock  Text="▽ Extra:" FontSize="14" VerticalAlignment="Center" Margin="10 12 0 0" Foreground="DarkSlateGray"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+                                <Button Content="Reset (Restarts 🤭)" Padding="10 4" MinWidth="120" Margin="12 5" HorizontalAlignment="Left" Background="BlanchedAlmond" Click="ButtonReset_Click"/>
+                                <Button Content="Assign Default Directory" Padding="10 4" MinWidth="120" Margin="12 5" HorizontalAlignment="Left" Background="Beige" Click="BtnDefaultDirectory"/>
+                            </StackPanel>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

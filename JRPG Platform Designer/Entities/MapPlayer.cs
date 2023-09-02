@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace JRPG_Platform_Designer.Entities
 {
@@ -10,7 +11,7 @@ namespace JRPG_Platform_Designer.Entities
     {
         public MapPlayer()
         {
-            Icon.IsHitTestVisible = false;
+            Icon.Source = new BitmapImage(new Uri(@"../../Icons/player.png", UriKind.Relative));
         }
     }
 }
