@@ -6,6 +6,21 @@
         xmlns:local="clr-namespace:JRPG_Platform_Designer"
         mc:Ignorable="d" WindowStyle="ToolWindow" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" SizeToContent="WidthAndHeight"
         Title="Foe List" Height="auto" Width="auto">
+    <Window.Resources>
+        <!--Default Font-->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+    </Window.Resources>
     <StackPanel Margin="4" Height="auto" Width="225">
         <ListBox x:Name="FoeListbox" Height="250"/>
         <Button Content="Pick" Margin="10" Width="100" Click="Button_Click"/>

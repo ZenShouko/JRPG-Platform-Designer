@@ -6,6 +6,21 @@
         xmlns:local="clr-namespace:JRPG_Platform_Designer"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="WidthAndHeight"
         Title="Foe Party" Height="auto" Width="auto">
+    <Window.Resources>
+        <!--Default Font-->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+    </Window.Resources>
     <Grid Height="440" Width="600">
         <Grid.RowDefinitions>
             <RowDefinition Height="135"/>
@@ -40,7 +55,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <GroupBox x:Name="MischeleniousBox" Header="Mischelenious" Margin="0 10" Padding="6 4" Background="LightGray" IsEnabled="False">
+            <GroupBox x:Name="MiscellaneousBox" Header="Miscellaneous" Margin="0 10" Padding="6 4" Background="LightGray" IsEnabled="False">
                 <StackPanel>
                     <TextBlock Text="Name:"/>
                     <TextBox x:Name="TxtName" Margin="10 0" Text="Foe name" TextAlignment="Center"/>

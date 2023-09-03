@@ -5,14 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 //using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using Path = System.IO.Path;
 
 namespace JRPG_Platform_Designer
@@ -28,7 +26,7 @@ namespace JRPG_Platform_Designer
         }
 
         #region Variables
-        string FilePath = "";
+        string CurrentPath = "";
 
         Image CheckIcon = new Image();
         Image AlertIcon = new Image();
@@ -65,6 +63,10 @@ namespace JRPG_Platform_Designer
             {
                 ComboboxFoes.Items.Add(mf.Name);
             }
+
+            //Default save directory
+            TxtDefaultDirectory.Text = string.IsNullOrEmpty(GameData.DefaultSavePath) ?
+                "Current Default Save Directory:\n none" : $"Current Default Save Directory:\n {GameData.DefaultSavePath}";
         }
 
         private void AppPrep()
@@ -95,6 +97,13 @@ namespace JRPG_Platform_Designer
             {
                 button.IsEnabled = false;
             }
+
+            //Focus on TxtName
+            TxtName.Focus();
+            TxtName.CaretIndex = TxtName.Text.Length;
+
+            //Get application version
+            TxtVersion.Text = $"Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}";
         }
 
         private void ApplyPlatformProperties(object sender, RoutedEventArgs e)
@@ -129,7 +138,7 @@ namespace JRPG_Platform_Designer
             PropertiesStatusIcon.Source = CheckIcon.Source;
 
             //Colapse panel
-            //CollapsePanel("PlatformPropertiesPanel");
+            CollapsePanel("PlatformPropertiesPanel");
 
             //Initialize preview grid
             IntializePreviewGrid();
@@ -139,6 +148,9 @@ namespace JRPG_Platform_Designer
             {
                 button.IsEnabled = true;
             }
+
+            //Disable update button
+            BtnUpdate.IsEnabled = false;
         }
 
         private void CollapsePanel(string panel)
@@ -161,8 +173,10 @@ namespace JRPG_Platform_Designer
             PlatformPreview.RowDefinitions.Clear();
             PlatformPreview.Children.Clear();
 
-            //GameData.PlatformTiles.Clear();
+            //Clear lists
             GameData.PlatformTileDictionary.Clear();
+            GameData.PlatformLootboxes.Clear();
+            GameData.PlatformFoes.Clear();
 
             //Create columns
             for (int i = 0; i < PlatformProperties.Columns; i++)
@@ -374,17 +388,6 @@ namespace JRPG_Platform_Designer
             //[3] Copy lootboxes
             foreach (Tile tile in GameData.PlatformTileDictionary.Values.Where(x => !string.IsNullOrEmpty(x.TypeLootbox)))
             {
-                //Put combobox on correct value
-                //for (int i = 0; i < ComboboxLootboxType.Items.Count; i++)
-                //{
-                //    ComboBoxItem currentItem = (ComboBoxItem)ComboboxLootboxType.Items[i];
-                //    string itemContent = currentItem.Content.ToString();
-                //    if (itemContent == tile.TypeLootbox)
-                //    {
-                //        ComboboxLootboxType.SelectedIndex = i;
-                //        break;
-                //    }
-                //}
                 ComboboxLootboxType.SelectedItem = tile.TypeLootbox;
 
                 //Assign lootbox
@@ -690,15 +693,15 @@ namespace JRPG_Platform_Designer
 
         #endregion
 
-        #region Export
+        #region File
 
         private void BtnExport_Click(object sender, RoutedEventArgs e)
         {
             //Check if platform is valid
-            if (!GameData.IsPlatformValid()) 
+            if (!GameData.IsPlatformValid())
             {
                 MessageBox.Show("Platform is not valid. Make sure the platform has atleast 1 tile, no empty tiles, and contains the player.", "Error"
-                    , MessageBoxButton.OK, MessageBoxImage.Stop); 
+                    , MessageBoxButton.OK, MessageBoxImage.Stop);
                 return;
             }
 
@@ -731,6 +734,60 @@ namespace JRPG_Platform_Designer
             MessageBox.Show("Platform exported successfully!", "Succes :)");
         }
 
+        private void LoadPlatform_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                //Pick a file
+                string filePath = "";
+                OpenFileDialog dialog = new OpenFileDialog();
+                dialog.Filter = "Jasooon Deruuulooo (*.json)|*json";
+                dialog.Title = "Select a file";
+
+                if (!string.IsNullOrEmpty(GameData.DefaultSavePath))
+                    dialog.InitialDirectory = GameData.DefaultSavePath;
+                else
+                    dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+
+                //Open dialog
+                if (dialog.ShowDialog() == true)
+                    filePath = dialog.FileName;
+                else
+                    return;
+
+                //Save path
+                this.CurrentPath = filePath;
+
+                //Read json from file
+                string json = File.ReadAllText(filePath);
+
+                //Deserialize json
+                List<Tile> tileList = JsonConvert.DeserializeObject<List<Tile>>(json);
+
+                //Set platform properties
+                TxtName.Text = Path.GetFileName(filePath).Split('.')[0];
+                TxtColumns.Text = tileList.Max(x => x.Position.X + 1).ToString();
+                TxtRows.Text = tileList.Max(x => x.Position.Y + 1).ToString();
+
+                //Load platform
+                ApplyPlatformProperties(sender, e);
+
+                //Set tiles
+                LoadNewTiles(tileList);
+
+                //Show success message
+                MessageBox.Show("Platform loaded successfully!", "Succes :)");
+
+                //Enable update button
+                BtnUpdate.IsEnabled = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error while loading the platform. Aborting operation.", "Error");
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         private string GetDestinationPath()
         {
             //Open file dialog for user to select a folder
@@ -756,63 +813,6 @@ namespace JRPG_Platform_Designer
             }
         }
 
-        #endregion
-
-        private void LoadPlatform_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                //Pick a file
-                string filePath = "";
-                OpenFileDialog dialog = new OpenFileDialog();
-                dialog.Filter = "Jasooon Deruuulooo (*.json)|*json";
-                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-                dialog.Title = "Select a file";
-
-                //Open dialog
-                if (dialog.ShowDialog() == true)
-                    filePath = dialog.FileName;
-                else
-                    return;
-
-                //Save path
-                this.FilePath = filePath;
-
-                //Read json from file
-                string json = File.ReadAllText(filePath);
-
-                //Deserialize json
-                List<Tile> tileList = JsonConvert.DeserializeObject<List<Tile>>(json);
-
-                //Set platform properties
-                TxtName.Text = Path.GetFileName(filePath).Split('.')[0];
-                TxtColumns.Text = tileList.Max(x => x.Position.X + 1).ToString();
-                TxtRows.Text = tileList.Max(x => x.Position.Y + 1).ToString();
-
-                //Load platform
-                ApplyPlatformProperties(sender, e);
-
-                //Set tiles
-                LoadNewTiles(tileList);
-
-                //Show success message
-                MessageBox.Show("Platform loaded successfully!", "Succes :)");
-
-                //Enable update button
-                BtnUpdate.IsEnabled = true;
-            }
-            catch  (Exception ex)
-            {
-                MessageBox.Show("Error while loading the platform. Aborting operation.", "Error");
-                Console.WriteLine(ex.Message);
-            }
-        }
-
-        private string GetCoordinates(Border border)
-        {
-            return $"{Grid.GetColumn(border)}X{Grid.GetRow(border)}Y";
-        }
-
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
         {
             //Just restart the app lol >:-)
@@ -830,7 +830,7 @@ namespace JRPG_Platform_Designer
             }
 
             //save current platform to FilePath
-            ExportPlatform(FilePath);
+            ExportPlatform(CurrentPath);
         }
 
         private void BtnDefaultDirectory(object sender, RoutedEventArgs e)
@@ -847,6 +847,33 @@ namespace JRPG_Platform_Designer
                 //Save path
                 GameData.AssignNewDefaultDirectory(dialog.SelectedPath);
             }
+
+            //Default save directory
+            TxtDefaultDirectory.Text = string.IsNullOrEmpty(GameData.DefaultSavePath) ?
+                "Current Default Save Directory:\n none" : $"Current Default Save Directory:\n {GameData.DefaultSavePath}";
+        }
+
+        #endregion
+
+        private string GetCoordinates(Border border)
+        {
+            return $"{Grid.GetColumn(border)}X{Grid.GetRow(border)}Y";
+        }
+
+        private void TxtBox_Focus(object sender, RoutedEventArgs e)
+        {
+            TextBox textBox = (TextBox)sender;
+            textBox.SelectAll();
+            //textBox.CaretIndex = textBox.Text.Length;
+        }
+
+        private void Gitlink_Click(object sender, MouseButtonEventArgs e)
+        {
+            //Open github page
+            System.Diagnostics.Process.Start("https://github.com/ZenShouko/JRPG-Platform-Designer");
+
+            //Set link color to purple
+            ((TextBlock)sender).Foreground = new SolidColorBrush(Color.FromRgb(128, 0, 128));
         }
     }
 }

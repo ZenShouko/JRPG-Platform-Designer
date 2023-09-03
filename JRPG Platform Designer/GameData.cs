@@ -176,9 +176,6 @@ namespace JRPG_Platform_Designer
             string path = Path.Combine(RootDirectoryPath + "/Data/");
             File.WriteAllText(path + "DefaultSavePath.txt", defaultPath);
 
-            //Make the file hidden
-            File.SetAttributes(path + "DefaultSavePath.txt", File.GetAttributes(path + "DefaultSavePath.txt") | FileAttributes.Hidden);
-
             //Open the file
             //System.Diagnostics.Process.Start(Path.Combine(RootDirectoryPath + "/Data/DefaultSavePath.txt"));
         }

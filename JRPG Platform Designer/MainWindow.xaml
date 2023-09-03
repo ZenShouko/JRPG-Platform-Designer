@@ -6,6 +6,21 @@
         xmlns:local="clr-namespace:JRPG_Platform_Designer" d:Height="1000"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         Title="Platform Designer" Height="650" Width="1200">
+    <Window.Resources>
+        <!--Default Font-->
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Century Gothic"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -25,7 +40,7 @@
                         <GroupBox x:Name="PlatformPropertiesPanel" Header="Platform Properties" Margin="5 0" MouseDown="GroupBox_MouseDown">
                             <StackPanel>
                                 <TextBlock Text="Name:" Margin="5"/>
-                                <TextBox x:Name="TxtName" Text="Test123" Margin="10 5" Padding="1"/>
+                                <TextBox x:Name="TxtName" Text="Test123" Margin="10 5" Padding="2"/>
                                 <Grid Margin="5">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
@@ -33,15 +48,15 @@
                                     </Grid.ColumnDefinitions>
                                     <StackPanel Margin="0 0 5 0">
                                         <TextBlock Text="Columns:" Margin="5"/>
-                                        <TextBox x:Name="TxtColumns" Text="4" Margin="10 5" Padding="1"/>
+                                        <TextBox x:Name="TxtColumns" Text="8" Margin="10 5" Padding="2" TextAlignment="Center" GotFocus="TxtBox_Focus"/>
                                     </StackPanel>
                                     <StackPanel Grid.Column="1">
                                         <TextBlock Text="rows:" Margin="5"/>
-                                        <TextBox x:Name="TxtRows" Text="4" Margin="10 5" Padding="1"/>
+                                        <TextBox x:Name="TxtRows" Text="8" Margin="10 5" Padding="2" TextAlignment="Center" GotFocus="TxtBox_Focus"/>
                                     </StackPanel>
                                 </Grid>
                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                                    <Button Content="Apply" Click="ApplyPlatformProperties" Margin="5" Width="120"/>
+                                    <Button Content="Apply" Padding="8 4" Click="ApplyPlatformProperties" Margin="5" Width="120"/>
                                 </StackPanel>
                             </StackPanel>
                         </GroupBox>
@@ -49,12 +64,14 @@
 
                     <!--Platform Tiles-->
                     <DockPanel Margin="10">
-                        <Button x:Name="BtnModifyTile" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" VerticalAlignment="Center" Margin="10 0 4 0" Click="ModifyCurrentAction"/>
+                        <Button x:Name="BtnModifyTile" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" VerticalAlignment="Center" Margin="10 0 4 0"
+                                Background="GhostWhite" FontSize="14" Click="ModifyCurrentAction"/>
                         <GroupBox Header="Tiles">
                             <StackPanel Orientation="Horizontal" Margin="5" VerticalAlignment="Center">
                                 <TextBlock Text="Tile:" Margin="5"/>
-                                <ComboBox x:Name="ComboboxTiles" Margin="10 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
-                                <Button x:Name="BtnFillAllTiles" Width="35" Height="24" Content="Fill" Click="BtnFillAllTiles_Click" Margin="5 0 0 0"/>
+                                <ComboBox x:Name="ComboboxTiles" Margin="10 5" Padding="4" MinWidth="150" SelectedIndex="0"/>
+                                <Button x:Name="BtnFillAllTiles" Padding="4" Content="🖌️ Fill" VerticalAlignment="Center" Margin="5 0 0 0"
+                                        Background="GhostWhite" FontSize="14" Click="BtnFillAllTiles_Click"/>
                             </StackPanel>
                         </GroupBox>
 
@@ -62,7 +79,8 @@
                     
                     <!--Player-->
                     <DockPanel Margin="10">
-                        <Button x:Name="BtnModifyPlayer" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" Margin="10 0 4 0" Padding="4 2" Click="ModifyCurrentAction"/>
+                        <Button x:Name="BtnModifyPlayer" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" Margin="10 0 4 0" Padding="4 2" 
+                                Background="GhostWhite" FontSize="14" Click="ModifyCurrentAction"/>
                         <GroupBox Header="Player">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="Player Position:" Margin="10 5 0 5"/>
@@ -72,7 +90,8 @@
 
                     <!--Items-->
                     <DockPanel Margin="10">
-                        <Button x:Name="BtnModifyLootbox" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" Margin="10 0 4 0" Click="ModifyCurrentAction"/>
+                        <Button x:Name="BtnModifyLootbox" DockPanel.Dock="Right" Width="34" Height="28" Content="✏️" Margin="10 0 4 0" 
+                                Background="GhostWhite" FontSize="14" Click="ModifyCurrentAction"/>
                         <GroupBox Header="Lootbox">
                             <StackPanel Orientation="Horizontal" Margin="5">
                                 <TextBlock Text="Item:" Margin="5"/>
@@ -83,19 +102,20 @@
 
                     <!--Foe settings-->
                     <DockPanel Margin="10">
-                        <Button x:Name="BtnPlaceFoeTeam" DockPanel.Dock="Right" Content="✏️" Height="28" Width="34" VerticalAlignment="Center" Margin="10 0 4 0" Click="ModifyCurrentAction"/>
+                        <Button x:Name="BtnPlaceFoeTeam" DockPanel.Dock="Right" Content="✏️" Height="28" Width="34" VerticalAlignment="Center" Margin="10 0 4 0" 
+                                Background="GhostWhite" FontSize="14" Click="ModifyCurrentAction"/>
                         <GroupBox Header="Foes">
-                            <StackPanel Orientation="Horizontal" Margin="2">
-                                <StackPanel Orientation="Vertical" VerticalAlignment="Center" Margin="5 0">
+                            <StackPanel Margin="2">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5 0">
                                     <TextBlock Text="Foe:" Margin="4"/>
-                                    <ComboBox x:Name="ComboboxFoes" Margin="6 5" Padding="2" MinWidth="150" SelectedIndex="0"/>
+                                    <ComboBox x:Name="ComboboxFoes" Margin="6 5" Padding="4" MinWidth="150" SelectedIndex="0"/>
                                 </StackPanel>
                                 <StackPanel Margin="5 0">
                                     <TextBlock Text="Party actions:" Margin="4"/>
                                     <StackPanel Orientation="Horizontal">
-                                        <Button x:Name="BtnCreateNewFoeParty" Content="Create" Margin="4 5" Padding="4 2" Click="BtnCreateNewFoeParty_Click"/>
-                                        <Button x:Name="BtnModifyFoeParty" Content="Modify" Margin="4 5" Padding="4 2" Click="BtnModifyFoeParty_Click"/>
-                                        <Button x:Name="BtnDeleteFoeParty" Content="Delete" Margin="4 5" Padding="4 2" Click="BtnDeleteFoeParty_Click"/>
+                                        <Button x:Name="BtnCreateNewFoeParty" Content="Create" Margin="4 5" Padding="8 3" Click="BtnCreateNewFoeParty_Click"/>
+                                        <Button x:Name="BtnModifyFoeParty" Content="Modify" Margin="4 5" Padding="8 3" Click="BtnModifyFoeParty_Click"/>
+                                        <Button x:Name="BtnDeleteFoeParty" Content="Delete" Margin="4 5" Padding="8 3" Click="BtnDeleteFoeParty_Click"/>
                                     </StackPanel>
                                 </StackPanel>
                             </StackPanel>
@@ -119,26 +139,31 @@
                         </Grid>
                     </GroupBox>
 
-                    <!--Save platform-->
-                    <GroupBox Header="Export" Margin="10">
+                    <!--Extra-->
+                    <GroupBox Header="Actions" Margin="10">
                         <StackPanel Margin="5">
-                            <TextBlock  Text="▽ Save new platform:" FontSize="14" VerticalAlignment="Center" Margin="10 0" Foreground="DarkSlateGray"/>
+                            <TextBlock  Text="▽ File:" FontSize="14" VerticalAlignment="Center" Margin="10 0" Foreground="DarkSlateGray"/>
                             <StackPanel Orientation="Horizontal" Margin="5">
-                                <Button Content="Export platform" Padding="10 4" Margin="5 2" HorizontalAlignment="Left"  Click="BtnExport_Click" Background="LightSeaGreen"/>
+                                <Button Content="💾 Save" Padding="4" Margin="5 2" HorizontalAlignment="Left"  Click="BtnExport_Click" 
+                                        Background="GhostWhite" Foreground="Black" FontSize="13"/>
+                                <Button Content="📂 Load" Padding="4" VerticalAlignment="Center" Click="LoadPlatform_Click" Margin="5 2" Background="GhostWhite" FontSize="13"/>
+                                <Button x:Name="BtnUpdate" Content="📝 Update" IsEnabled="False" Padding="4" Margin="5 2" Background="GhostWhite" FontSize="13" Click="BtnUpdate_Click"/>
+                            </StackPanel>
                                 <TextBlock Text="Save file to ../JRPG-Solution/JRPG-Project/Stages" FontStyle="Italic" VerticalAlignment="Center" Margin="10 0" Foreground="DarkSlateGray"/>
-                            </StackPanel>
-                            
-                            <TextBlock  Text="▽ Load and modify existing platform:" FontSize="14" VerticalAlignment="Center" Margin="10 12 0 0" Foreground="DarkSlateGray"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                                <Button Content="Load Platform" MinWidth="120" Padding="10 4" HorizontalAlignment="Left" Click="LoadPlatform_Click" Margin="5 2" Background="Tan"/>
-                                <Button x:Name="BtnUpdate" Content="Update Platform" IsEnabled="False" MinWidth="120" Padding="10 4" Margin="5 2" Background="YellowGreen" FontWeight="Bold" Click="BtnUpdate_Click"/>
-                            </StackPanel>
 
                             <TextBlock  Text="▽ Extra:" FontSize="14" VerticalAlignment="Center" Margin="10 12 0 0" Foreground="DarkSlateGray"/>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                                <Button Content="Reset (Restarts 🤭)" Padding="10 4" MinWidth="120" Margin="12 5" HorizontalAlignment="Left" Background="BlanchedAlmond" Click="ButtonReset_Click"/>
-                                <Button Content="Assign Default Directory" Padding="10 4" MinWidth="120" Margin="12 5" HorizontalAlignment="Left" Background="Beige" Click="BtnDefaultDirectory"/>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="5">
+                                <Button Content="Reset (Restarts 🤭)" Padding="10 4" MinWidth="120" Margin="6 5" HorizontalAlignment="Left" Background="BlanchedAlmond" Click="ButtonReset_Click"/>
+                                <Button Content="Assign Default Directory" Padding="10 4" MinWidth="120" Margin="6 5" HorizontalAlignment="Left" Background="Beige" Click="BtnDefaultDirectory"/>
                             </StackPanel>
+                            <TextBlock x:Name="TxtDefaultDirectory" Text="Current Default Save Directory:" FontStyle="Italic" VerticalAlignment="Center" TextWrapping="Wrap" Margin="10 0" Foreground="DarkSlateGray"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="About" Margin="10">
+                        <StackPanel>
+                            <TextBlock x:Name="TxtVersion" Text="App Version: " Margin="4"/>
+                            <TextBlock Text="View on Github" TextDecorations="Underline" Foreground="Blue" Cursor="Hand" Margin="4" 
+                                       MouseUp="Gitlink_Click" FontSize="14" HorizontalAlignment="Left"/>
                         </StackPanel>
                     </GroupBox>
                 </StackPanel>

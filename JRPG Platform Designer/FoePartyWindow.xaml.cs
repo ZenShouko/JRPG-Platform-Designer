@@ -1,4 +1,5 @@
 ﻿using JRPG_Platform_Designer.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -107,6 +108,11 @@ namespace JRPG_Platform_Designer
             border.Background = Brushes.White;
             border.HorizontalAlignment = HorizontalAlignment.Center;
             border.Width = 150;
+            //-> Mouse events
+            border.MouseUp += (sender, e) => BorderClick(border);
+            border.MouseEnter += (sender, e) => border.Background = Brushes.FloralWhite;
+            border.MouseLeave += (sender, e) => border.Background = Brushes.White;
+            border.Cursor = Cursors.Hand;
 
             //Stackpanel
             StackPanel stackPanel = new StackPanel();
@@ -128,6 +134,16 @@ namespace JRPG_Platform_Designer
             stackPanel.Children.Add(txtLevel);
 
             return border;
+        }
+
+        private void BorderClick(Border border)
+        {
+            //Get index of border
+            int index = StackLineUp.Children.IndexOf(border);
+
+            //Set selected index
+            ComboLineUp.SelectedIndex = -1;
+            ComboLineUp.SelectedIndex = index;
         }
 
         private void BtnAddFoe_Click(object sender, RoutedEventArgs e)
@@ -177,6 +193,8 @@ namespace JRPG_Platform_Designer
             LineUp.RemoveAt(ComboLineUp.SelectedIndex);
             LineUp.Insert(0, foe);
             RefreshGui();
+
+            ComboLineUp.SelectedIndex = 0;
         }
 
         private void Stats_Click(object sender, MouseButtonEventArgs e)
@@ -307,8 +325,8 @@ namespace JRPG_Platform_Designer
                 RefreshFoeStats(null);
                 FoeStatsBox.IsEnabled = false;
                 FoeStatsBox.Background = Brushes.LightGray;
-                MischeleniousBox.IsEnabled = false;
-                MischeleniousBox.Background = Brushes.LightGray;
+                MiscellaneousBox.IsEnabled = false;
+                MiscellaneousBox.Background = Brushes.LightGray;
                 ComboMovement.SelectedIndex = -1;
                 return;
             }
@@ -317,8 +335,8 @@ namespace JRPG_Platform_Designer
             RefreshFoeStats(LineUp[ComboLineUp.SelectedIndex]);
             FoeStatsBox.IsEnabled = true;
             FoeStatsBox.Background = Brushes.White;
-            MischeleniousBox.IsEnabled = true;
-            MischeleniousBox.Background = Brushes.White;
+            MiscellaneousBox.IsEnabled = true;
+            MiscellaneousBox.Background = Brushes.White;
 
             ComboMovement.SelectedIndex = MovementBehaviours.IndexOf(MovementBehaviour);
         }

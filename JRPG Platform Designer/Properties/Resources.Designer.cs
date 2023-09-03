@@ -59,23 +59,5 @@ namespace JRPG_Platform_Designer.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C:\Users\emre_\Documents\Visual Studio 2022\Personal Solutions\JRPG-Solution\JRPG-Project\Resources\Data\Collectables.json.
-        /// </summary>
-        internal static string CollectablesPath {
-            get {
-                return ResourceManager.GetString("CollectablesPath", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C:\Users\emre_\Documents\Visual Studio 2022\Personal Solutions\JRPG-Solution\JRPG-Project\Resources\Data.
-        /// </summary>
-        internal static string TileListPath {
-            get {
-                return ResourceManager.GetString("TileListPath", resourceCulture);
-            }
-        }
     }
 }
