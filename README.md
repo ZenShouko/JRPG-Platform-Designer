@@ -13,7 +13,7 @@
 *By placing the platform file inside the correct folder, the game will automatically read and render it!*
 
 ### A brief breakdown of how to use the the features
-**Foreach action that is performed, you need to click on the corresponding pencil button ✏️ next to the action. This will set the action to what you've picked. Now you can click on the platform to perform the desired action.**
+**Clicking on the pencil button [✏️] will activate the current action. Leftclicking on the preview grid will draw on it, rightclicking will remove.**
 
 #### #Platform properties
 *Allows to set the name and the amount of cells of a platform.*
