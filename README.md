@@ -70,6 +70,12 @@ Displays the stats of the foe. When clicking on a stat, the corresponding textbo
 
 Recommended to give your party a meaningful name for easy distinction.
 
+#### #Tile Info
+*When hovering over a cell, it displays info about the tile.*  
+Useful to see which lootbox or foe party is present on the tile.
+
+<img src="tile-info.png" alt="Image not loading?" width="500px"/>
+
 #### #Actions
 *Load or export your platform.*
 
