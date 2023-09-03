@@ -37,7 +37,7 @@
                     <!--Platform Properties-->
                     <DockPanel>
                         <Image x:Name="PropertiesStatusIcon" Height="26" Width="26" Source="Icons/alert.png" DockPanel.Dock="Right"/>
-                        <GroupBox x:Name="PlatformPropertiesPanel" Header="Platform Properties" Margin="5 0" MouseDown="GroupBox_MouseDown">
+                        <GroupBox x:Name="PlatformPropertiesPanel" Header="Platform Properties" Margin="5 0" MouseDown="GroupBox_MouseDown" Cursor="Hand">
                             <StackPanel>
                                 <TextBlock Text="Name:" Margin="5"/>
                                 <TextBox x:Name="TxtName" Text="Test123" Margin="10 5" Padding="2"/>

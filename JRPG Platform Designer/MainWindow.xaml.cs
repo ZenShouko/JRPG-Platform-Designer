@@ -129,6 +129,25 @@ namespace JRPG_Platform_Designer
                 return;
             }
 
+            //If platform already exists, notify user that it will be overwritten
+            if (GameData.PlatformTileDictionary.Count > 1)
+            {
+                //Did user only change the name?
+                if (TxtName.Text != PlatformProperties.Name 
+                    && int.Parse(TxtColumns.Text) == PlatformProperties.Columns && int.Parse(TxtRows.Text) == PlatformProperties.Rows)
+                {
+                    //Update name
+                    PlatformProperties.Name = TxtName.Text;
+                    CollapsePanel("PlatformPropertiesPanel");
+                    return;
+                }
+
+                //Else, ask user if he wants to overwrite current platform
+                MessageBoxResult result = MessageBox.Show("Platform already exists. Do you want to overwrite it? This will completely reset the platform.", "Overwrite platform", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.No)
+                    return;
+            }
+
             //=> Apply properties
             PlatformProperties.Name = TxtName.Text;
             PlatformProperties.Columns = int.Parse(TxtColumns.Text);
@@ -586,6 +605,9 @@ namespace JRPG_Platform_Designer
             {
                 ComboboxFoes.Items.Add(mf.Name);
             }
+
+            //Select the last added foe party
+            ComboboxFoes.SelectedIndex = ComboboxFoes.Items.Count - 1;
         }
 
         private void PlaceFoeParty(Border border)
