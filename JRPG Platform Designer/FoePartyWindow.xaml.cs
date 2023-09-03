@@ -168,6 +168,8 @@ namespace JRPG_Platform_Designer
                 foe.ID = window.SelectedFoe.ID;
                 foe.Description = window.SelectedFoe.Description;
             }
+            else
+                return;
 
             //Add foe to lineup
             LineUp.Add(foe);

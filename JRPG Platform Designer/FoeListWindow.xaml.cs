@@ -53,5 +53,10 @@ namespace JRPG_Platform_Designer
             DialogResult = true;
             Close();
         }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            DialogResult = DialogResult == true ? DialogResult : false;
+        }
     }
 }
