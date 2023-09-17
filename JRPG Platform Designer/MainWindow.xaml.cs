@@ -754,6 +754,10 @@ namespace JRPG_Platform_Designer
 
             //Show success message
             MessageBox.Show("Platform exported successfully!", "Succes :)");
+
+            //Enable update button and save path
+            BtnUpdate.IsEnabled = true;
+            CurrentPath = path;
         }
 
         private void LoadPlatform_Click(object sender, RoutedEventArgs e)

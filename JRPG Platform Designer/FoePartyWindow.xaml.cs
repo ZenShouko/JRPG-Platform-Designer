@@ -27,6 +27,9 @@ namespace JRPG_Platform_Designer
             LineUp = mf.FoeTeam;
             Initialize();
             RefreshGui();
+            BtnCreateParty.Content = "Save Changes";
+            Modifying = true;
+            MapFoeInQuestion = mf;
         }
 
         List<Character> LineUp = new List<Character>();
@@ -34,6 +37,9 @@ namespace JRPG_Platform_Designer
         List<string> MovementBehaviours = new List<string>() { "Straight Forward", "Random" };
         Dictionary<string, TextBlock> StatTextblocks = new Dictionary<string, TextBlock>();
         string CurrentlyModifyingStat = "";
+
+        bool Modifying = false;
+        MapFoe MapFoeInQuestion = null;
 
         private void Initialize()
         {
@@ -72,13 +78,18 @@ namespace JRPG_Platform_Designer
             else if (ComboLineUp.Items.Count > 0)
                 ComboLineUp.SelectedIndex = 0;
 
-            //Button enable/disable
+            //Button enable/disable. [5 is the limit]
             BtnRemoveFoe.IsEnabled = LineUp.Count > 0;
             BtnAddFoe.IsEnabled = LineUp.Count < 5;
             BtnSwapPosition.IsEnabled = LineUp.Count > 1;
 
             if (LineUp.Count == 0)
                 FoeStatsBox.IsEnabled = false;
+
+            if (LineUp.Count > 0 && LineUp.Count < 5)
+                BtnDuplicate.IsEnabled = true;
+            else
+                BtnDuplicate.IsEnabled = false;
 
             //Display foes in lineup
             DisplayFoesInLineUp();
@@ -203,6 +214,12 @@ namespace JRPG_Platform_Designer
         {
             //Get sender
             TextBlock txt = (TextBlock)sender;
+
+            //Reset fontweight of all textblocks
+            foreach (TextBlock textBlock in StatTextblocks.Values)
+            {
+                textBlock.FontWeight = FontWeights.Normal;
+            }
 
             //Make font bold
             txt.FontWeight = FontWeights.Bold;
@@ -343,7 +360,7 @@ namespace JRPG_Platform_Designer
             ComboMovement.SelectedIndex = MovementBehaviours.IndexOf(MovementBehaviour);
         }
 
-        private void TxtHp_MouseEnter(object sender, MouseEventArgs e)
+        private void StatTxt_MouseEnter(object sender, MouseEventArgs e)
         {
             //get sender
             TextBlock txt = (TextBlock)sender;
@@ -352,7 +369,7 @@ namespace JRPG_Platform_Designer
             txt.Background = Brushes.NavajoWhite;
         }
 
-        private void TxtHp_MouseLeave(object sender, MouseEventArgs e)
+        private void StatTxt_MouseLeave(object sender, MouseEventArgs e)
         {
             //get sender
             TextBlock txt = (TextBlock)sender;
@@ -368,14 +385,30 @@ namespace JRPG_Platform_Designer
             Character foeOriginal = GameData.FoeList.FirstOrDefault(x => x.ID == foe.ID);
 
             //Reset value to default
-            foe.Stats.HP = foeOriginal.Stats.HP;
-            foe.Stats.DEF = foeOriginal.Stats.DEF;
-            foe.Stats.DMG = foeOriginal.Stats.DMG;
-            foe.Stats.SPD = foeOriginal.Stats.SPD;
-            foe.Stats.STA = foeOriginal.Stats.STA;
-            foe.Stats.STR = foeOriginal.Stats.STR;
-            foe.Stats.CRC = foeOriginal.Stats.CRC;
-            foe.Stats.CRD = foeOriginal.Stats.CRD;
+            if (CurrentlyModifyingStat == "HP")
+                foe.Stats.HP = foeOriginal.Stats.HP;
+            else if (CurrentlyModifyingStat == "DEF")
+                foe.Stats.DEF = foeOriginal.Stats.DEF;
+            else if (CurrentlyModifyingStat == "DMG")
+                foe.Stats.DEF = foeOriginal.Stats.DEF;
+            else if (CurrentlyModifyingStat == "SPD")
+                foe.Stats.SPD = foeOriginal.Stats.SPD;
+            else if (CurrentlyModifyingStat == "STA")
+                foe.Stats.STA = foeOriginal.Stats.STA;
+            else if (CurrentlyModifyingStat == "STR")
+                foe.Stats.STR = foeOriginal.Stats.STR;
+            else if (CurrentlyModifyingStat == "CRC")
+                foe.Stats.CRC = foeOriginal.Stats.CRC;
+            else if (CurrentlyModifyingStat == "CRD")
+                foe.Stats.CRD = foeOriginal.Stats.CRD;
+
+            //Refresh stats
+            RefreshFoeStats(foe);
+            RefreshGui();
+
+            //Disable stackpanel
+            StackModifyValue.IsEnabled = false;
+            TxtCurrentModifiedStat.Text = "";
         }
 
         private void ApplyMisschelenious_Click(object sender, RoutedEventArgs e)
@@ -415,6 +448,13 @@ namespace JRPG_Platform_Designer
                 MessageBox.Show("Add atleast 1 foe to the line up!");
                 return;
             }
+
+            //[->] Check if we're modifying or creating
+            if (Modifying)
+            {
+                ModifyTeam();
+                return;
+            }
             
             if (TxtTeamName.Text.Trim().Length < 2 || GameData.MapFoes.Any(x => x.Name == TxtTeamName.Text))
             {
@@ -431,6 +471,38 @@ namespace JRPG_Platform_Designer
             //Add to list
             GameData.AddMapFoe(mapFoe);
             Close();
+        }
+
+        private void ModifyTeam()
+        {
+            //Do we have a valid name?
+            if (TxtName.Text.Length > 0 && TxtName.Text.Length < 2)
+            {
+                MessageBox.Show("Provide a valid team name.");
+                return;
+            }
+
+            //Apply name changes
+            MapFoeInQuestion.Name = TxtName.Text.Length > 0 ? TxtName.Text.Trim() : MapFoeInQuestion.Name;
+
+            //Close. Changes are already made.
+            Close();
+        }
+
+        private void BtnDuplicate_Click(object sender, RoutedEventArgs e)
+        {
+            //Get selected foe
+            Character foe = LineUp[ComboLineUp.SelectedIndex];
+
+            //Copy foe
+            Character newFoe = new Character();
+            newFoe.CopyFrom(foe);
+
+            //Add to lineup
+            LineUp.Add(newFoe);
+
+            //Refresh gui
+            RefreshGui();
         }
     }
 }
