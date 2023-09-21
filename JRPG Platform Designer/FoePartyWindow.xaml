@@ -102,7 +102,7 @@
                 </StackPanel>
             </GroupBox>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 8 0 0">
+            <StackPanel x:Name="StackApply" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 8 0 0">
                 <TextBlock Text="Team Name:" Margin="2 8 2 4"/>
                 <TextBox x:Name="TxtTeamName" Padding="1" Margin="10 2" Width="150" Height="24"/>
             </StackPanel>

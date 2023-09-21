@@ -692,6 +692,16 @@ namespace JRPG_Platform_Designer
             MapFoe selectedFoe = GameData.MapFoes.Find(x => x.Name == ComboboxFoes.SelectedItem.ToString());
             FoePartyWindow foePartyWindow = new FoePartyWindow(selectedFoe);
             foePartyWindow.ShowDialog();
+
+            //Reload combobox
+            ComboboxFoes.Items.Clear();
+            foreach (MapFoe mf in GameData.MapFoes)
+            {
+				ComboboxFoes.Items.Add(mf.Name);
+			}
+
+            //Select the last added foe party
+			ComboboxFoes.SelectedIndex = ComboboxFoes.Items.Count - 1;
         }
 
         private void BtnDeleteFoeParty_Click(object sender, RoutedEventArgs e)
